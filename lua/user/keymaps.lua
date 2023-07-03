@@ -1,7 +1,3 @@
-lvim.leader = "space"
-vim.g.maplocalleader = '\\'
-
-
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
@@ -28,7 +24,14 @@ lvim.lsp.buffer_mappings.normal_mode["gf"] = {
   lvim.icons.kind.Reference .. " Telescope Frecency"
 }
 
-lvim.keys.normal_mode['<C-m>'] = ":messages<cr>"
+local has_noice, _ = pcall(require, 'noice')
+if has_noice then
+  lvim.keys.normal_mode['<C-m>'] = ":Noice<cr>"
+else
+  vim.notify('folke/noice.nvim is not installed but you have a keymap set for it', vim.log.levels.WARN)
+  lvim.keys.normal_mode['<C-m>'] = ":messages<cr>"
+end
+
 lvim.keys.normal_mode['<leader>.'] = ":luafile %<cr>"
 
 lvim.keys.normal_mode['<leader>-'] = "<cmd>lua require('persistence').load()<cr>"

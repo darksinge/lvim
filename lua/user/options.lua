@@ -1,3 +1,7 @@
+lvim.reload_config_on_save = true
+lvim.leader = "space"
+vim.g.maplocalleader = '\\'
+
 if vim.g.neovide then
   vim.opt.guifont = "MonoLisa:h24"
 

@@ -1,5 +1,3 @@
-lvim.reload_config_on_save = true
-
 lvim.plugins = {
   {
     "zbirenbaum/copilot.lua",
@@ -185,13 +183,47 @@ lvim.plugins = {
   },
 
   {
-    'folke/noice.nvim',
+    'darksinge/noice.nvim',
+    -- dir = vim.env.HOME .. '/projects/git/noice.nvim',
     event = 'VeryLazy',
     dependencies = {
       'MunifTanjim/nui.nvim',
     },
     config = function()
-      require('noice').setup()
+      require('noice').setup({
+        views = {
+          cmdline_popup = {
+            position = {
+              row = 2,
+              col = "50%",
+            },
+            size = {
+              width = 60,
+              height = "auto",
+            },
+          },
+          popupmenu = {
+            relative = "editor",
+            position = {
+              row = 5,
+              col = "50%",
+            },
+            size = {
+              width = 60,
+              height = 10,
+            },
+            border = {
+              style = "rounded",
+              padding = { 0, 1 },
+            },
+            win_options = {
+              winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+            },
+          },
+        },
+      })
+
+      require('telescope').load_extension('noice')
     end,
   },
 
@@ -201,6 +233,19 @@ lvim.plugins = {
     opts = {},
   },
 }
+
+lvim.builtin.lualine.on_config_done = function(lualine)
+  local noice_ok, noice = pcall(require, "noice")
+  if noice_ok then
+    local config = lualine.get_config()
+    table.insert(config.sections.lualine_c, {
+      noice.api.statusline.mode.get,
+      cond = noice.api.statusline.mode.has,
+      color = { fg = "#ff9e64" },
+    })
+    lualine.setup(config)
+  end
+end
 
 lvim.lazy.opts.dev = {
   path = '~/projects/personal',

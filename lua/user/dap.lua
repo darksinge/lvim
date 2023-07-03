@@ -1,0 +1,10 @@
+-- Meh...
+-- local dap = require('dap')
+-- dap.configurations.sh = {
+--   {
+--     type = 'sh';
+--     request = 'launch';
+--     name = 'Launch file';
+--     program = '${file}';
+--   }
+-- }

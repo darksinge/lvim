@@ -1,0 +1,48 @@
+-- This is just an idea so far, but, I currently have my keybind to take the
+-- current word my cursor is on top of and put it inside a
+-- `console.log(<cword>)`
+-- The idea for this plugin is to use treesitter to put my log statements on the correct line.
+-- for example, if I have this code:
+-- ```
+-- const foo = bar()
+--    .baz()
+--    .qux()
+-- ```
+-- and I use my shortcut to console.log `foo`, then I'll get this:
+-- ```
+-- const foo = bar()
+-- console.log(foo)
+--    .baz()
+--    .qux()
+-- ```
+-- but what I want is this:
+-- ```
+-- const foo = bar()
+--    .baz()
+--    .qux()
+-- console.log(foo)
+-- ```
+-- Also, it would be nice if I try using the shortcut on a variable being returned, like this:
+-- ```
+-- return foo
+-- ```
+-- Then currently, the log statement would be on the line below the return statement.
+-- ```
+-- return foo
+-- console.log(foo)
+-- ```
+-- But I want it to be put on the line above the return statement.
+-- ```
+-- console.log(foo)
+-- return foo
+-- ```
+-- Do it!
+--
+--
+--
+--
+--
+--
+--
+--
+-- ANOTHER IDEA: Create a plugin that adds goto_definition support for JSON schema

@@ -1,19 +1,19 @@
-local ok, flash = pcall(require, 'flash')
+local ok, Flash = pcall(require, 'flash')
 if not ok then
   return
 end
 
+Flash.setup()
+
 local opts = { silent = true, noremap = true }
-local keymap = vim.keymap
 
-keymap.set({ 'n', 'o', 'x' }, 's', flash.jump, opts)
-keymap.set({ 'n', 'o', 'x' }, 'S', flash.treesitter, opts)
-keymap.set('o', 'r', flash.remote, opts)
-keymap.set({ 'o', 'x' }, 'R', flash.treesitter_search, opts)
-keymap.set({ 'c' }, '<c-s>', flash.toggle, opts)
-
-keymap.set('n', 'f', function()
-  flash.jump({
+vim.keymap.set({ 'n', 'o', 'x' }, 's', Flash.jump, opts)
+vim.keymap.set('n', '<LocalLeader>s', Flash.treesitter, opts)
+vim.keymap.set('o', 'r', Flash.remote, opts)
+vim.keymap.set({ 'o', 'x' }, '<localleader>r', Flash.treesitter_search, opts)
+vim.keymap.set({ 'c' }, '<c-s>', Flash.toggle, opts)
+vim.keymap.set('n', 'f', function()
+  Flash.jump({
     search = {
       forward = true,
       wrap = false,
@@ -21,9 +21,8 @@ keymap.set('n', 'f', function()
     }
   })
 end, opts)
-
-keymap.set('n', 'F', function()
-  flash.jump({
+vim.keymap.set('n', 'F', function()
+  Flash.jump({
     search = {
       forward = false,
       wrap = false,
@@ -31,5 +30,3 @@ keymap.set('n', 'F', function()
     }
   })
 end, opts)
-
-vim.keymap.set('n', '<LocalLeader>s', function() print('jfkldjkfld') end, opts)

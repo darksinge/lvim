@@ -17,6 +17,8 @@ lvim.plugins = {
 
   { "morhetz/gruvbox" },
   { "sainnhe/gruvbox-material" },
+  { "luisiacc/gruvbox-baby" },
+
   { "sainnhe/sonokai" },
   { "sainnhe/edge" },
   {
@@ -85,6 +87,15 @@ lvim.plugins = {
   --     require('hop').setup()
   --   end
   -- },
+
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    config = function()
+      require('user.flash')
+    end
+  },
 
   {
     "nvim-lua/lsp-status.nvim"
@@ -171,7 +182,23 @@ lvim.plugins = {
 
   { 'nathom/filetype.nvim' },
 
-  { 'MunifTanjim/nui.nvim' },
+  {
+    -- upstream
+    'MunifTanjim/nui.nvim',
+
+    -- -- local
+    -- dir = vim.env.HOME .. '/projects/personal/nui.nvim'
+
+    -- -- downstream
+    -- 'darksinge/nui.nvim',
+    -- branch = 'develop',
+  },
+
+  {
+    dir = vim.env.HOME .. '/projects/personal/nui-popup'
+  },
+
+  { 'darksinge/neodash.nvim' },
 
   {
     dir = vim.env.HOME .. '/projects/personal/plink.nvim',
@@ -183,18 +210,28 @@ lvim.plugins = {
   },
 
   {
-    'darksinge/noice.nvim',
+    -- 'darksinge/noice.nvim',
+    'folke/noice.nvim',
     -- dir = vim.env.HOME .. '/projects/git/noice.nvim',
     event = 'VeryLazy',
     dependencies = {
-      'MunifTanjim/nui.nvim',
+      -- 'darksinge/nui.nvim',
+      'rcarriga/nvim-notify',
     },
     config = function()
       require('noice').setup({
+        messages = {
+          enabled = false, -- enables the Noice messages UI
+          -- view = "notify",           -- default view for messages
+          -- view_error = "mini",       -- view for errors
+          -- view_warn = "mini",        -- view for warnings
+          -- view_history = "messages", -- view for :messages
+          -- view_search = false,       -- view for search count messages. Set to `false` to disable
+        },
         views = {
           cmdline_popup = {
             position = {
-              row = 2,
+              row = 25,
               col = "50%",
             },
             size = {
@@ -205,7 +242,7 @@ lvim.plugins = {
           popupmenu = {
             relative = "editor",
             position = {
-              row = 5,
+              row = 28,
               col = "50%",
             },
             size = {
@@ -227,11 +264,15 @@ lvim.plugins = {
     end,
   },
 
-  {
-    'folke/flash.nvim',
-    event = 'VeryLazy',
-    opts = {},
-  },
+  -- {
+  --   'folke/neodev.nvim',
+  --   opts = {
+  --     library = {
+  --       enabled = true,
+  --       plugins = { 'nui' },
+  --     },
+  --   },
+  -- },
 }
 
 lvim.builtin.lualine.on_config_done = function(lualine)
@@ -260,6 +301,14 @@ table.insert(lvim.plugins, {
     local ok, cmp = pcall(require, "copilot_cmp")
     if ok then cmp.setup({}) end
   end,
+})
+
+table.insert(lvim.plugins, 1, {
+  'folke/neoconf.nvim',
+  -- priority = 9999,
+  -- init = function()
+  --   require('neoconf').setup()
+  -- end
 })
 
 lvim.builtin.telescope.on_config_done = function(telescope)

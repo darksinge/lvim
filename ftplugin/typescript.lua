@@ -6,6 +6,12 @@ end
 local vopts = lvim.builtin.which_key.vopts
 local opts = lvim.builtin.which_key.opts
 
+local icons = {
+  debug = '',
+  debug_console = '',
+  telescope = '',
+}
+
 local mappings = {
   C = {
     name = "Typescript",
@@ -30,9 +36,9 @@ local mappings = {
     I = { '"ayiwoconsole.info(\'<C-R>a:\', JSON.stringify(<C-R>a, null, 3));<Esc>', "console.info + JSON.stringfy" },
   },
   ["t"] = {
-    name = ' ' .. lvim.icons.ui.Telescope .. 'TSUtils',
-    t = { ':Vitest run<cr>', lvim.icons.diagnostics.DebugConsole .. ' Vitest Run' },
-    w = { ':Vitest run<cr>', lvim.icons.ui.DebugConsole .. ' Vitest Watch' },
+    name = ' ' .. icons.telescope .. 'TSUtils',
+    t = { ':Vitest run<cr>', icons.debug .. ' Vitest Run' },
+    w = { ':Vitest run<cr>', icons.telescope .. ' Vitest Watch' },
     p = { ':Vitest run<cr>', ' Typecheck Project' },
   }
 }

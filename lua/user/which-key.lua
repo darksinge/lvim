@@ -86,6 +86,6 @@ wk.mappings["t"] = {
   --   c = { ":lua require'user.telescope'.grep_config()<cr>", 'LunarVim Config' },
 }
 
-wk.mappings["z"]["o"] = {
-  k = { 'i<C-k>OK<esc>', '✓' },
-}
+
+wk.mappings['p']['P'] = wk.mappings['p']['p']
+wk.mappings['p']['p'] = { ":e ~/.config/lvim/lua/user/plugins.lua<cr>", "Edit plugins.lua" }

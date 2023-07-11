@@ -1,3 +1,8 @@
+-- local has_neoconf, neoconf = pcall(require, 'neoconf')
+-- if has_neoconf then
+--   neoconf.setup()
+-- end
+
 -- Configure tsserver server manually.
 -- Requires `:LvimCacheReset` to take effect
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
@@ -43,30 +48,30 @@ require('typescript').setup({
     on_attach = on_attach,
     on_init = on_init,
     capabilities = capabilities,
-    -- settings = {
-    --   javascript = {
-    --     inlayHints = {
-    --       includeInlayEnumMemberValueHints = true,
-    --       includeInlayFunctionLikeReturnTypeHints = true,
-    --       includeInlayFunctionParameterTypeHints = true,
-    --       includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-    --       includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-    --       includeInlayPropertyDeclarationTypeHints = true,
-    --       includeInlayVariableTypeHints = true,
-    --     },
-    --   },
-    --   typescript = {
-    --     inlayHints = {
-    --       includeInlayEnumMemberValueHints = true,
-    --       includeInlayFunctionLikeReturnTypeHints = true,
-    --       includeInlayFunctionParameterTypeHints = true,
-    --       includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-    --       includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-    --       includeInlayPropertyDeclarationTypeHints = true,
-    --       includeInlayVariableTypeHints = true,
-    --     },
-    --   },
-    -- },
+    settings = {
+      javascript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+      typescript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+    },
   },
 })
 
@@ -114,8 +119,8 @@ require('typescript').setup({
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup({
   {
-    command = "prettierd",
-    -- command = "prettier",
+    -- command = "prettierd",
+    command = "prettier",
     filetypes = {
       "javascript",
       "javascriptreact",

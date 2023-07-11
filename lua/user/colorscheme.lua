@@ -1,8 +1,15 @@
+-- lvim.transparent_window = true
+if vim.g.neovide then
+  lvim.transparent_window = false
+end
+
+---@type { [1]: string, opts: table }
 local themes = {
-  gruvbox = "gruvbox",
-  rose_pine = "rose-pine",
   lunar = "lunar",
+  gruvbox = "gruvbox",
   gruvbox_material = "gruvbox-material",
+  gruvbox_baby = "gruvbox-baby",
+  rose_pine = "rose-pine",
   onedarker = "onedarker",
   onedark = "onedark",
   horizon = "horizon",
@@ -17,56 +24,50 @@ local themes = {
   ayu = "ayu",
 }
 
--- lvim.transparent_window = true
--- lvim.colorscheme = themes.lunar
--- lvim.colorscheme = themes.onedarker
--- lvim.colorscheme = themes.gruvbox
--- lvim.colorscheme = themes.gruvbox_material
--- lvim.colorscheme = themes.tokyonight_day
-lvim.colorscheme = themes.tokyonight_moon
+local function set(scheme, opts)
+  lvim.colorscheme = scheme
+  opts = opts or {}
+  if opts.global then
+    for k, v in pairs(opts.global) do
+      vim.g[k] = v
+    end
+  end
 
-local extra_opts = {
-  sonokai = {
-    styles = {
-      espresso = "espresso",
-      shusia = "shusia",
-      default = "default",
-    },
-  },
-  ayu = {
-    styles = {
-      mirage = "mirage",
-      light = "light",
-      dark = "dark",
-    },
-  },
-  edge = {
-    styles = {
-      aura = "aura",
-      neon = "neon",
-    },
-    airline_theme = "edge",
-    lualine_theme = "edge",
-  },
-}
-
-if vim.g.neovide then
-  lvim.transparent_window = false
-  return
+  if opts.lualine_theme then
+    lvim.builtin.lualine.options.theme = opts.lualine_theme
+  end
 end
 
-if lvim.colorscheme == themes.sonokai then
-  vim.g.sonokai_style = "espresso"
-  vim.g.sonokai_style = "shusia"
-  vim.g.sonokai_style = "default"
-end
+-- set(themes.lunar)
+-- set(themes.onedarker)
+-- set(themes.gruvbox)
+set(themes.gruvbox_material)
+-- set(themes.gruvbox_baby, {
+--   global = {
+--     use_original_palette = true,
+--   },
+--   lualine_theme = 'gruvbox-baby'
+-- })
+-- set(themes.tokyonight_day)
+-- set(themes.tokyonight_moon)
 
-if lvim.colorscheme == themes.edge then
-  vim.g.airline_theme = extra_opts.edge.airline_theme
-  vim.g.edge_style = extra_opts.edge.styles.aura
-  lvim.builtin.lualine.options.theme = extra_opts.edge.lualine_theme
-end
+-- set(themes.edge, {
+--   lualine_theme = "edge",
+--   global = {
+--     airline_theme = "edge",
+--     edge_style = "aura", -- or 'neon'
+--
+--   },
+-- })
 
-if lvim.colorscheme == themes.ayu then
-  vim.g.ayucolor = extra_opts.ayu.styles.mirage
-end
+-- set(themes.sonokai, {
+--   global = {
+--     sonokai_style = "default", -- or 'espresso' or 'shusia'
+--   }
+-- })
+
+-- set(themes.ayu, {
+--   global = {
+--     ayucolor = "mirage" -- or 'light' or 'dark'
+--   }
+-- })

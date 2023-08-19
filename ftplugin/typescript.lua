@@ -37,9 +37,12 @@ local mappings = {
   },
   ["t"] = {
     name = ' ' .. icons.telescope .. 'TSUtils',
-    t = { ':Vitest run<cr>', icons.debug .. ' Vitest Run' },
-    w = { ':Vitest run<cr>', icons.telescope .. ' Vitest Watch' },
-    p = { ':Vitest run<cr>', ' Typecheck Project' },
+    -- t = { ':Vitest run<cr>', icons.debug .. ' Vitest Run' },
+    -- w = { ':Vitest run<cr>', icons.telescope .. ' Vitest Watch' },
+    -- p = { ':Vitest run<cr>', ' Typecheck Project' },
+    t = { ":lua require'neotest'.run.run()<cr>", icons.debug .. ' Vitest Run' },
+    w = { ":lua require'neotest'.watch.watch()<cr>", icons.debug .. ' Vitest Watch' },
+    c = { ':TSTypecheck<cr>', ' Typecheck Project' }
   }
 }
 

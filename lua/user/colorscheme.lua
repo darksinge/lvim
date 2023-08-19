@@ -41,7 +41,7 @@ end
 -- set(themes.lunar)
 -- set(themes.onedarker)
 -- set(themes.gruvbox)
-set(themes.gruvbox_material)
+-- set(themes.gruvbox_material)
 -- set(themes.gruvbox_baby, {
 --   global = {
 --     use_original_palette = true,
@@ -51,14 +51,14 @@ set(themes.gruvbox_material)
 -- set(themes.tokyonight_day)
 -- set(themes.tokyonight_moon)
 
--- set(themes.edge, {
---   lualine_theme = "edge",
---   global = {
---     airline_theme = "edge",
---     edge_style = "aura", -- or 'neon'
---
---   },
--- })
+set(themes.edge, {
+  lualine_theme = "edge",
+  global = {
+    airline_theme = "edge",
+    edge_style = "aura", -- or 'neon'
+
+  },
+})
 
 -- set(themes.sonokai, {
 --   global = {

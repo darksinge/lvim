@@ -5,6 +5,9 @@ end
 
 Flash.setup()
 
+-- This doesn't turn off flash, it only disables it during regular search
+Flash.toggle(false)
+
 local opts = { silent = true, noremap = true }
 
 vim.keymap.set({ 'n', 'o', 'x' }, 's', Flash.jump, opts)

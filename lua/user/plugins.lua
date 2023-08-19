@@ -223,6 +223,8 @@ lvim.plugins = {
         messages = {
           enabled = false, -- enables the Noice messages UI
           -- view = "notify",           -- default view for messages
+          -- view = 'mini',
+          view = 'cmdline',
           -- view_error = "mini",       -- view for errors
           -- view_warn = "mini",        -- view for warnings
           -- view_history = "messages", -- view for :messages
@@ -273,6 +275,28 @@ lvim.plugins = {
   --     },
   --   },
   -- },
+
+  {
+    'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
+      require('nvim-treesitter.configs').setup({
+        autotag = {
+          enable = true,
+        }
+      })
+    end
+  },
+
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      'marilari88/neotest-vitest',
+    },
+    config = function()
+      require('user.neotest')
+    end
+  },
 }
 
 lvim.builtin.lualine.on_config_done = function(lualine)

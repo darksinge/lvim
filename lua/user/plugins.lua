@@ -104,6 +104,9 @@ lvim.plugins = {
   {
     'nvim-telescope/telescope-frecency.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim', 'kkharji/sqlite.lua' },
+    config = function()
+      require('user.telescope').config()
+    end
   },
 
   {
@@ -200,71 +203,81 @@ lvim.plugins = {
 
   { 'darksinge/neodash.nvim' },
 
+  -- {
+  --   dir = vim.env.HOME .. '/projects/personal/plink.nvim',
+  --   dependencies = {
+  --     'MunifTanjim/nui.nvim',
+  --     'nvim-lua/plenary.nvim',
+  --     'darksinge/neodash.nvim',
+  --   }
+  -- },
+
   {
-    dir = vim.env.HOME .. '/projects/personal/plink.nvim',
+    'darksinge/plink.nvim',
+    commit = 'f8148f9',
     dependencies = {
-      'MunifTanjim/nui.nvim',
       'nvim-lua/plenary.nvim',
       'darksinge/neodash.nvim',
-    }
-  },
-
-  {
-    -- 'darksinge/noice.nvim',
-    'folke/noice.nvim',
-    -- dir = vim.env.HOME .. '/projects/git/noice.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      -- 'darksinge/nui.nvim',
-      'rcarriga/nvim-notify',
+      'MunifTanjim/nui.nvim',
     },
-    config = function()
-      require('noice').setup({
-        messages = {
-          enabled = false, -- enables the Noice messages UI
-          -- view = "notify",           -- default view for messages
-          -- view = 'mini',
-          view = 'cmdline',
-          -- view_error = "mini",       -- view for errors
-          -- view_warn = "mini",        -- view for warnings
-          -- view_history = "messages", -- view for :messages
-          -- view_search = false,       -- view for search count messages. Set to `false` to disable
-        },
-        views = {
-          cmdline_popup = {
-            position = {
-              row = 25,
-              col = "50%",
-            },
-            size = {
-              width = 60,
-              height = "auto",
-            },
-          },
-          popupmenu = {
-            relative = "editor",
-            position = {
-              row = 28,
-              col = "50%",
-            },
-            size = {
-              width = 60,
-              height = 10,
-            },
-            border = {
-              style = "rounded",
-              padding = { 0, 1 },
-            },
-            win_options = {
-              winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
-            },
-          },
-        },
-      })
-
-      require('telescope').load_extension('noice')
-    end,
   },
+
+  -- {
+  --   -- 'darksinge/noice.nvim',
+  --   'folke/noice.nvim',
+  --   -- dir = vim.env.HOME .. '/projects/git/noice.nvim',
+  --   event = 'VeryLazy',
+  --   dependencies = {
+  --     -- 'darksinge/nui.nvim',
+  --     'rcarriga/nvim-notify',
+  --   },
+  --   config = function()
+  --     require('noice').setup({
+  --       messages = {
+  --         enabled = false, -- enables the Noice messages UI
+  --         -- view = "notify",           -- default view for messages
+  --         -- view = 'mini',
+  --         view = 'cmdline',
+  --         -- view_error = "mini",       -- view for errors
+  --         -- view_warn = "mini",        -- view for warnings
+  --         -- view_history = "messages", -- view for :messages
+  --         -- view_search = false,       -- view for search count messages. Set to `false` to disable
+  --       },
+  --       views = {
+  --         cmdline_popup = {
+  --           position = {
+  --             row = 25,
+  --             col = "50%",
+  --           },
+  --           size = {
+  --             width = 60,
+  --             height = "auto",
+  --           },
+  --         },
+  --         popupmenu = {
+  --           relative = "editor",
+  --           position = {
+  --             row = 28,
+  --             col = "50%",
+  --           },
+  --           size = {
+  --             width = 60,
+  --             height = 10,
+  --           },
+  --           border = {
+  --             style = "rounded",
+  --             padding = { 0, 1 },
+  --           },
+  --           win_options = {
+  --             winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+  --           },
+  --         },
+  --       },
+  --     })
+
+  --     require('telescope').load_extension('noice')
+  --   end,
+  -- },
 
   -- {
   --   'folke/neodev.nvim',

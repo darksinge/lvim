@@ -152,8 +152,15 @@ local multline_comment_snip = {
  */]], { i(0) }))
 }
 
+local objectid_snip = {
+  s('objectid', fmt([[ObjectId{}]], { i(0) }))
+}
+
 ls.add_snippets("typescript", multline_comment_snip, { type = 'autosnippets' })
 ls.add_snippets("javascript", multline_comment_snip, { type = 'autosnippets' })
+
+ls.add_snippets("typescript", objectid_snip, { type = 'autosnippets' })
+ls.add_snippets("javascript", objectid_snip, { type = 'autosnippets' })
 
 vim.keymap.set({ "i", "s" }, "<M-]>", function()
   if ls.expand_or_jumpable() then

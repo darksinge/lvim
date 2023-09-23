@@ -63,5 +63,10 @@
     "prefix": "@pro",
     "body": ["@protected"],
     "description": "@protected"
+  },
+  "ObjectId": {
+    "prefix": "objectid",
+    "body": ["ObjectId"],
+    "description": "I hate typing 'ObjectId'"
   }
 }

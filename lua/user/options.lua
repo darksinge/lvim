@@ -42,13 +42,13 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 lvim.builtin.project.detection_methods = { "pattern" }
 lvim.builtin.project.patterns = {
-  ".git",
   "pnpm-lock.yaml",
   "package-lock.json",
   "yarn.lock",
   "requirements.txt",
+  ".git",
   "lua",
-  ".gitignore",
+  "bun.lockb",
 }
 
 vim.opt.shell = "/bin/zsh"

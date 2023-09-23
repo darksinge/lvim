@@ -49,16 +49,15 @@ end
 --   lualine_theme = 'gruvbox-baby'
 -- })
 -- set(themes.tokyonight_day)
--- set(themes.tokyonight_moon)
+set(themes.tokyonight_moon)
 
-set(themes.edge, {
-  lualine_theme = "edge",
-  global = {
-    airline_theme = "edge",
-    edge_style = "aura", -- or 'neon'
-
-  },
-})
+-- set(themes.edge, {
+--   lualine_theme = "edge",
+--   global = {
+--     airline_theme = "edge",
+--     edge_style = "aura", -- or 'neon'
+--   },
+-- })
 
 -- set(themes.sonokai, {
 --   global = {

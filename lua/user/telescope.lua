@@ -14,4 +14,13 @@ function M.grep_config()
   t.find_files(opts)
 end
 
+function M.config()
+  local opts = {
+    -- defaults = {
+    --   file_ignore_patterns = {}
+    -- }
+  }
+  require('telescope').setup(opts)
+end
+
 return M

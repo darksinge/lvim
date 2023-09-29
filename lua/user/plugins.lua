@@ -101,13 +101,17 @@ lvim.plugins = {
     "nvim-lua/lsp-status.nvim"
   },
 
-  {
-    'nvim-telescope/telescope-frecency.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim', 'kkharji/sqlite.lua' },
-    config = function()
-      require('user.telescope').config()
-    end
-  },
+  -- {
+  --   'nvim-telescope/telescope-frecency.nvim',
+  --   dependencies = { 'nvim-telescope/telescope.nvim', 'kkharji/sqlite.lua' },
+  --   config = function()
+  --     local ok, tele = pcall(require, 'user.telescope')
+  --     if ok then
+  --       tele.config()
+  --     end
+  --     require('user.telescope').config()
+  --   end
+  -- },
 
   {
     'rose-pine/neovim',
@@ -146,14 +150,14 @@ lvim.plugins = {
 
   'lunarvim/lunar.nvim',
 
-  -- { "tzachar/cmp-tabnine", event = "InsertEnter", build = "./install.sh", },
-  {
-    'LukasPietzschmann/telescope-tabs',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    config = function()
-      require 'telescope-tabs'.setup {}
-    end
-  },
+  -- -- { "tzachar/cmp-tabnine", event = "InsertEnter", build = "./install.sh", },
+  -- {
+  --   'LukasPietzschmann/telescope-tabs',
+  --   dependencies = { 'nvim-telescope/telescope.nvim' },
+  --   config = function()
+  --     require 'telescope-tabs'.setup {}
+  --   end
+  -- },
 
   {
     "lvimuser/lsp-inlayhints.nvim",
@@ -308,6 +312,14 @@ lvim.plugins = {
     },
     config = function()
       require('user.neotest')
+    end
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('user.treesitter-textobjects')
     end
   },
 }

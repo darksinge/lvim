@@ -322,6 +322,16 @@ lvim.plugins = {
       require('user.treesitter-textobjects')
     end
   },
+
+  -- NOTE: couldn't get this to work, but want to try later
+  -- {
+  --   'mg979/vim-visual-multi',
+  --   config = function()
+  --     vim.g.VM_maps = {}
+  --     vim.g.VM_maps['Find Under'] = '<C-m>'
+  --     vim.g.VM_maps['Find Subword Under'] = '<C-m>'
+  --   end
+  -- },
 }
 
 lvim.builtin.lualine.on_config_done = function(lualine)

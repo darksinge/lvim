@@ -151,16 +151,78 @@ local multline_comment_snip = {
  * {}
  */]], { i(0) }))
 }
+ls.add_snippets("typescript", multline_comment_snip, { type = 'autosnippets' })
+ls.add_snippets("javascript", multline_comment_snip, { type = 'autosnippets' })
+
+
+
 
 local objectid_snip = {
   s('objectid', fmt([[ObjectId{}]], { i(0) }))
 }
-
-ls.add_snippets("typescript", multline_comment_snip, { type = 'autosnippets' })
-ls.add_snippets("javascript", multline_comment_snip, { type = 'autosnippets' })
-
 ls.add_snippets("typescript", objectid_snip, { type = 'autosnippets' })
 ls.add_snippets("javascript", objectid_snip, { type = 'autosnippets' })
+
+
+
+
+local newObjectid_snip = {
+  s('noid', fmt([[new ObjectId(){}]], { i(0) }))
+}
+ls.add_snippets("typescript", newObjectid_snip, { type = 'autosnippets' })
+ls.add_snippets("javascript", newObjectid_snip, { type = 'autosnippets' })
+
+
+
+
+-- javascript: create async arrow function
+ls.add_snippets("javascript", {
+  s('=fa', fmt('const {} = async ({}) => {{{}}}', { i(1, 'fn'), i(2, '...args'), i(3) }))
+}, { type = 'autosnippets' })
+
+
+
+-- javascript: create normal arrow function
+ls.add_snippets("javascript", {
+  s('=fs', fmt('const {} = ({}) => {{{}}}', { i(1, 'fn'), i(2, '...args'), i(3) }))
+}, { type = 'autosnippets' })
+
+
+
+-- typescript: create async arrow function
+ls.add_snippets(
+  "typescript",
+  {
+    s('fna=', fmt('const {1} = async ({2}: {3}): Promise<{4}> => {{{5}}}', {
+      i(1, 'fn'),
+      i(2, '...args'),
+      i(3, 'unknown[]'),
+      i(4, 'ReturnType'),
+      i(5),
+    })
+    )
+  },
+  { type = 'autosnippets' }
+)
+
+
+-- typescript: create normal arrow function with types
+ls.add_snippets(
+  "typescript",
+  {
+    s('fns=', fmt('const {1} = ({2}: {3}): {4} => {{{5}}}', {
+      i(1, 'fn'),
+      i(2, '...args'),
+      i(3, 'unknown[]'),
+      i(4, 'ReturnType'),
+      i(5),
+    })
+    )
+  },
+  { type = 'autosnippets' }
+)
+
+
 
 vim.keymap.set({ "i", "s" }, "<M-]>", function()
   if ls.expand_or_jumpable() then

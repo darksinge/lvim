@@ -6,6 +6,7 @@ wk.mappings["a"] = { ":Alpha<cr>", icons.ui.Dashboard .. " Dashboard" }
 wk.mappings["v"] = {
   name = ' ' .. icons.diagnostics.Trace .. ' Vitest',
   t = { ':Vitest run<cr>', 'Run Tests' },
+  f = { ':Vitest run %<cr>', 'Run Tests in current file' },
 }
 
 -- folke/persistence.nvim

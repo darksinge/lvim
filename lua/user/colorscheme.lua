@@ -41,7 +41,17 @@ end
 -- set(themes.lunar)
 -- set(themes.onedarker)
 -- set(themes.gruvbox)
--- set(themes.gruvbox_material)
+set(themes.gruvbox_material, {
+  global = {
+    -- gruvbox_material_background = 'hard',
+    -- gruvbox_material_background = 'soft',
+    gruvbox_material_background = 'medium', -- default
+
+    gruvbox_material_foreground = 'mix',
+    -- gruvbox_material_foreground = 'original',
+    -- gruvbox_material_foreground = 'material',
+  }
+})
 -- set(themes.gruvbox_baby, {
 --   global = {
 --     use_original_palette = true,
@@ -49,7 +59,7 @@ end
 --   lualine_theme = 'gruvbox-baby'
 -- })
 -- set(themes.tokyonight_day)
-set(themes.tokyonight_moon)
+-- set(themes.tokyonight_moon)
 
 -- set(themes.edge, {
 --   lualine_theme = "edge",

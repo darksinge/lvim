@@ -32,6 +32,24 @@ local function find_line_number(file, search_text)
   return nil
 end
 
+local function escape_pattern(text)
+  return text:gsub("([^%w])", "%%%1")
+end
+
+---@param path Path
+local function find_upwards(path, target)
+  if path.filename == '/' then
+    return
+  end
+
+  local file = path:joinpath(target)
+  if file:exists() then
+    return path
+  end
+
+  return find_upwards(path:parent(), target)
+end
+
 --TODO: Clean up this mess of a function
 local function create_qflist(lines, root_dir, logger)
   local root = p:new(root_dir)
@@ -71,11 +89,15 @@ local function create_qflist(lines, root_dir, logger)
   end
 end
 
----@param opts {root: string|nil, file: string|nil, debug: boolean|nil}|nil
+---@param opts { root: string|nil, file: string|nil, debug: boolean|nil, cwd: string }|nil
 M.run = function(opts)
   opts = opts or {}
-  local root = p:new(opts.root)
-  assert(root:is_dir(), 'root is not a directory')
+  local path = p:new(opts.root)
+
+  assert(path:is_dir() or path:is_file(), path.filename .. ' is not a directory nor file')
+
+  local root = path:is_dir() and path or find_upwards(path, 'vitest.config.js')
+  local real_cwd = root.filename:gsub(escape_pattern(opts.cwd .. '/'), '')
 
   local logger = opts.debug and log.debug or log.trace
 
@@ -87,28 +109,35 @@ M.run = function(opts)
     'vitest',
     'run',
     '--no-color',
-    -- 'test/libs/token.test.ts',
+    -- '/path/to/some/file.test.ts',
   }
 
-  if type(opts.file) == 'string' then
-    table.insert(args, opts.file)
+  if path:is_file() and real_cwd then
+    local file = path.filename:gsub(real_cwd .. '/', '')
+    table.insert(args, file)
   end
 
   logger('running tests...')
   local lines = {}
+
+  P('args:')
+  P(args)
+
+  ---@diagnostic disable-next-line: missing-fields
   Job:new({
-    cwd = root:absolute(),
+    cwd = real_cwd,
     command = 'npx',
     args = args,
     detached = true,
     on_stdout = function(_, line)
-      logger(line or '')
+      -- logger(line or '')
+      P(line or '')
       table.insert(lines, line)
     end,
     on_exit = function()
       logger('done')
       vim.schedule(function()
-        create_qflist(lines, root, logger)
+        create_qflist(lines, path, logger)
       end)
     end
   }):start()

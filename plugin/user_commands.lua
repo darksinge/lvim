@@ -19,3 +19,7 @@ end, { force = true, nargs = '+', bang = true })
 vim.api.nvim_create_user_command('TSTypecheck', function(command)
   require('user.typecheck-ts').run()
 end, { force = true })
+
+vim.api.nvim_create_user_command('TStypecheck', function()
+  require('user.typecheck-ts').run()
+end, { force = true })

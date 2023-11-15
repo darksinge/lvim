@@ -4,10 +4,10 @@ lvim.plugins = {
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
-      require("copilot").setup({
-        suggestions = { enabled = false },
-        panel = { enabled = false },
-      })
+      -- require("copilot").setup({
+      --   suggestions = { enabled = false },
+      --   panel = { enabled = false },
+      -- })
     end,
   },
 
@@ -44,7 +44,17 @@ lvim.plugins = {
     end
   },
 
-  { "christoomey/vim-tmux-navigator" },
+  {
+    "christoomey/vim-tmux-navigator",
+    config = function()
+      vim.cmd [[let g:tmux_navigator_no_mappings = 1]]
+      -- vim.g.tmux_navigator_no_mappings = 1
+      vim.keymap.set('n', '<C-h>', ':TmuxNavigateLeft<cr>', { silent = true, noremap = true })
+      vim.keymap.set('n', '<C-j>', ':TmuxNavigateDown<cr>', { silent = true, noremap = true })
+      vim.keymap.set('n', '<C-k>', ':TmuxNavigateUp<cr>', { silent = true, noremap = true })
+      vim.keymap.set('n', '<C-l>', ':TmuxNavigateRight<cr>', { silent = true, noremap = true })
+    end,
+  },
   -- { "tpope/vim-surround" },
   {
     "kylechui/nvim-surround",
@@ -56,7 +66,7 @@ lvim.plugins = {
       })
     end
   },
-  { "felipec/vim-sanegx",            event = "BufRead" },
+  { "felipec/vim-sanegx",   event = "BufRead" },
   {
     "windwp/nvim-ts-autotag",
     config = function()
@@ -327,7 +337,7 @@ lvim.plugins = {
   -- {
   --   'mg979/vim-visual-multi',
   --   config = function()
-  --     vim.g.VM_maps = {}
+  --     vim.g.VM_maps =.popup {}
   --     vim.g.VM_maps['Find Under'] = '<C-m>'
   --     vim.g.VM_maps['Find Subword Under'] = '<C-m>'
   --   end

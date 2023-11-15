@@ -5,7 +5,7 @@ local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
--- local c = ls.choice_node
+local c = ls.choice_node
 -- local d = ls.dynamic_node
 -- local r = ls.restore_node
 -- local l = require("luasnip.extras").lambda
@@ -163,6 +163,11 @@ local objectid_snip = {
 ls.add_snippets("typescript", objectid_snip, { type = 'autosnippets' })
 ls.add_snippets("javascript", objectid_snip, { type = 'autosnippets' })
 
+local objectid_snip2 = {
+  s('oid', fmt([[ObjectId{}]], { i(0) }))
+}
+ls.add_snippets("typescript", objectid_snip2, { type = 'autosnippets' })
+ls.add_snippets("javascript", objectid_snip2, { type = 'autosnippets' })
 
 
 
@@ -189,15 +194,26 @@ ls.add_snippets("javascript", {
 
 
 
--- typescript: create async arrow function
+-- typescript: create normal arrow function with types
 ls.add_snippets(
   "typescript",
   {
-    s('fna=', fmt('const {1} = async ({2}: {3}): Promise<{4}> => {{{5}}}', {
-      i(1, 'fn'),
-      i(2, '...args'),
-      i(3, 'unknown[]'),
-      i(4, 'ReturnType'),
+    s('$fnas', fmt('{1} {2} = async ({3}){4} => {{{5}}}', {
+      c(1, { t('const'), t('export const') }),
+      i(2, 'fn'),
+      c(3, {
+        fmt('{}: {}', {
+          i(1, '...args'),
+          i(2, 'unknown[]'),
+        }),
+        t(''),
+      }),
+      c(4, {
+        fmt(': Promise<{}>', {
+          i(1, 'ReturnType'),
+        }),
+        t('')
+      }),
       i(5),
     })
     )
@@ -210,11 +226,22 @@ ls.add_snippets(
 ls.add_snippets(
   "typescript",
   {
-    s('fns=', fmt('const {1} = ({2}: {3}): {4} => {{{5}}}', {
-      i(1, 'fn'),
-      i(2, '...args'),
-      i(3, 'unknown[]'),
-      i(4, 'ReturnType'),
+    s('$fns', fmt('{1} {2} = ({3}){4} => {{{5}}}', {
+      c(1, { t('const'), t('export const') }),
+      i(2, 'fn'),
+      c(3, {
+        fmt('{}: {}', {
+          i(1, '...args'),
+          i(2, 'unknown[]'),
+        }),
+        t(''),
+      }),
+      c(4, {
+        fmt(': {}', {
+          i(1, 'ReturnType'),
+        }),
+        t('')
+      }),
       i(5),
     })
     )
@@ -224,25 +251,25 @@ ls.add_snippets(
 
 
 
-vim.keymap.set({ "i", "s" }, "<M-]>", function()
+vim.keymap.set({ "i", "s" }, "<C-M-l>", function()
   if ls.expand_or_jumpable() then
     return ls.expand_or_jump()
   end
 end, { silent = true })
 
-vim.keymap.set({ "i", "s" }, "<M-[>", function()
+vim.keymap.set({ "i", "s" }, "<C-M-h>", function()
   if ls.jumpable(-1) then
     return ls.jump(-1)
   end
 end, { silent = true })
 
-vim.keymap.set({ "i" }, "<M-,>", function()
+vim.keymap.set({ "i", "n" }, "<C-M-j>", function()
   if ls.choice_active() then
     return ls.change_choice(-1)
   end
 end, { silent = true })
 
-vim.keymap.set({ "i" }, "<M-.>", function()
+vim.keymap.set({ "i", "n" }, "<C-M-k>", function()
   if ls.choice_active() then
     return ls.change_choice(1)
   end

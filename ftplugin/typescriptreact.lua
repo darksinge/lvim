@@ -14,11 +14,12 @@ local opts = {
 
 local mappings = {
   C = {
-    name = "TypescriptReact",
+    name = "Typescript",
     i = { "<cmd>TypescriptAddMissingImports<Cr>", "AddMissingImports" },
     o = { "<cmd>TypescriptOrganizeImports<cr>", "OrganizeImports" },
-    u = { "<cmd>TypescriptRemoveUnused<Cr>", "RemoveUnused" },
-    r = { "<cmd>TypescriptRenameFile<Cr>", "RenameFile" },
+    r = { "<cmd>TypescriptRemoveUnused<Cr>", "RemoveUnused" },
+    I = { "<cmd>TypescriptOrganizeImports<cr><cmd>TypescriptRemoveUnused<cr>", "Organize and RemoveUnused" },
+    R = { "<cmd>TypescriptRenameFile<Cr>", "RenameFile" },
     f = { "<cmd>TypescriptFixAll<Cr>", "FixAll" },
     g = { "<cmd>TypescriptGoToSourceDefinition<Cr>", "GoToSourceDefinition" },
   },

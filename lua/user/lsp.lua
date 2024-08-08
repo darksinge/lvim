@@ -119,8 +119,8 @@ require('typescript').setup({
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup({
   {
-    -- command = "prettierd",
-    command = "prettier",
+    command = "prettierd",
+    -- command = "prettier",
     filetypes = {
       "javascript",
       "javascriptreact",
@@ -163,3 +163,71 @@ vim.diagnostic.config({
 
 lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
 table.insert(lvim.builtin.cmp.sources, 1, { name = "copilot" })
+
+
+local null_ls = require("null-ls")
+null_ls.register({
+  method = null_ls.methods.CODE_ACTION,
+  filetypes = { 'javascript', 'typescript', 'typescriptreact', 'lua' },
+  generator = {
+    fn = function(params)
+      local actions = {}
+      if not (params and params.lsp_params and params.lsp_params.context and params.lsp_params.context.diagnostics) then
+        return actions
+      end
+
+      ---@type table<string, boolean>
+      local seen = {}
+      local diagnostics = params.lsp_params.context.diagnostics
+      for _, diagnostic in ipairs(diagnostics) do
+        if diagnostic.source == 'eslint' then
+          local code = diagnostic.code
+          if seen[code] then
+            goto continue
+          else
+            seen[code] = true
+          end
+
+          table.insert(actions, {
+            title = "Disable ESLint rule '" .. code .. "' for this line",
+            action = function()
+              ---@type {character: number; line: number}
+              local start = diagnostic.range.start
+              ---@type {character: number; line: number}
+              local end_ = diagnostic.range['end']
+
+              local indent = vim.fn.indent(start.line)
+              local whitespace = string.rep(' ', indent)
+              local lines = { whitespace .. '// eslint-disable-next-line ' .. code }
+              for _, line in ipairs(vim.api.nvim_buf_get_lines(params.bufnr, start.line, end_.line, false)) do
+                table.insert(lines, line)
+              end
+
+              vim.api.nvim_buf_set_lines(params.bufnr, start.line, end_.line, false, lines)
+            end
+          })
+
+          table.insert(actions, {
+            title = "Disable ESLint rule '" .. code .. "' for this entire file",
+            action = function()
+              local lines = vim.api.nvim_buf_get_lines(params.bufnr, 0, 1, false) or ''
+
+              local top = lines[1]
+              local match = top:match('^/%*%s+eslint%-disable%s+([^%s]+)%s+%*/')
+              if match then
+                lines[1] = '/* eslint-disable ' .. match .. ',' .. code .. ' */'
+              else
+                table.insert(lines, 1, '/* eslint-disable ' .. code .. ' */')
+              end
+
+              vim.api.nvim_buf_set_lines(params.bufnr, 0, 1, false, lines)
+            end
+          })
+          ::continue::
+        end
+      end
+
+      return actions
+    end,
+  },
+})

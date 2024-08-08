@@ -301,7 +301,6 @@ local function make_optional(node)
       end
     end
   end
-
 end
 
 ---@param node TSNode A node that looks like `{ type: 'zod_schema', properties: z.object({ ... }), ... }`
@@ -463,6 +462,11 @@ M.run = function()
   M.convert_array()
   extract_schemas_from_object('schemas')
   -- extract_schemas_from_object('paths')
+end
+
+M.setup = function()
+  vim.keymap.set('n', '<leader>,,', ':luafile $HOME/.config/lvim/lua/refactor/lib/convert_schemas.lua<cr>',
+    { silent = true, noremap = true })
 end
 
 -- TODO: Get rid of this after you're done testing

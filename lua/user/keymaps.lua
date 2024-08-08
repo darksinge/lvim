@@ -14,15 +14,23 @@ lvim.lsp.buffer_mappings.normal_mode["gd"] = {
   lvim.icons.kind.Reference .. " Definitions"
 }
 
-lvim.lsp.buffer_mappings.normal_mode["gD"] = {
-  ":lua vim.lsp.buf.type_definition()<cr>",
-  lvim.icons.kind.Reference .. " Type Definition"
-}
+-- lvim.lsp.buffer_mappings.normal_mode["gk"] = {
+--   ":lua vim.lsp.buf.type_definition()<cr>",
+--   lvim.icons.kind.Reference .. " Type Definition"
+-- }
+vim.keymap.set('n', 'gk', function()
+  local gp_ok, gp = pcall(require, 'goto-preview')
+  if gp_ok then
+    gp.goto_preview_type_definition()
+  else
+    vim.lsp.buf.type_definition()
+  end
+end)
 
-lvim.lsp.buffer_mappings.normal_mode["gf"] = {
-  ":Telescope frecency<cr>",
-  lvim.icons.kind.Reference .. " Telescope Frecency"
-}
+-- lvim.lsp.buffer_mappings.normal_mode["gf"] = {
+--   ":Telescope frecency<cr>",
+--   lvim.icons.kind.Reference .. " Telescope Frecency"
+-- }
 
 -- local has_noice, _ = pcall(require, 'noice')
 -- if has_noice then
@@ -36,3 +44,14 @@ lvim.keys.normal_mode['<C-m>'] = ":messages<cr>"
 lvim.keys.normal_mode['<leader>.'] = ":luafile %<cr>"
 
 lvim.keys.normal_mode['<leader>-'] = "<cmd>lua require('persistence').load()<cr>"
+
+vim.keymap.set({ 'o', 'x' }, "a'", "2i'")
+vim.keymap.set({ 'o', 'x' }, 'a"', '2i"')
+
+local tnav_ok, tnav = pcall(require, "nvim-tmux-navigation")
+if tnav_ok then
+  vim.keymap.set("n", "<C-h>", tnav.NvimTmuxNavigateLeft, { silent = true })
+  vim.keymap.set("n", "<C-j>", tnav.NvimTmuxNavigateDown, { silent = true })
+  vim.keymap.set("n", "<C-k>", tnav.NvimTmuxNavigateUp, { silent = true })
+  vim.keymap.set("n", "<C-l>", tnav.NvimTmuxNavigateRight, { silent = true })
+end

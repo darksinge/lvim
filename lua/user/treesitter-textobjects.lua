@@ -18,7 +18,6 @@ configs.setup({
         ['aC'] = '@class.outer',
         ['iC'] = '@class.inner',
         ['rs'] = '@assignment.rhs',
-        ['ls'] = '@assignment.lhs',
         ['aa'] = '@parameter.outer',
         ['ia'] = '@paramter.inner',
         ['ac'] = '@conditional.outer',

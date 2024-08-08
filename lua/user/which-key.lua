@@ -1,7 +1,8 @@
 local icons = lvim.icons
 local wk = lvim.builtin.which_key
 
-wk.mappings["a"] = { ":Alpha<cr>", icons.ui.Dashboard .. " Dashboard" }
+-- I never use this, except when fat fingering
+-- wk.mappings["a"] = { ":Alpha<cr>", icons.ui.Dashboard .. " Dashboard" }
 
 wk.mappings["v"] = {
   name = ' ' .. icons.diagnostics.Trace .. ' Vitest',
@@ -67,15 +68,16 @@ wk.mappings["W"] = {
   s = { ":lua require('telescope-tabs').list_tabs()<cr>", 'Search Tabs' },
 }
 
-wk.mappings["G"] = {
-  name = ' ' .. icons.git.Octoface .. " Github Copilot",
-  a = { ":lua require('copilot.suggestion').accept()<cr>", "Accept" },
-  n = { ":lua require('copilot.suggestion').next()<cr>", "Next" },
-  N = { ":lua require('copilot.suggestion').prev()<cr>", "Prev" },
-  d = { ":lua require('copilot.suggestion').dismiss()<cr>", "Dismiss" },
-  t = { ":lua require('copilot.suggestion').toggle_auto_trigger()<cr>", "Toggle Auto Trigger" },
-}
+-- wk.mappings["G"] = {
+--   name = ' ' .. icons.git.Octoface .. " Github Copilot",
+--   a = { ":lua require('copilot.suggestion').accept()<cr>", "Accept" },
+--   n = { ":lua require('copilot.suggestion').next()<cr>", "Next" },
+--   N = { ":lua require('copilot.suggestion').prev()<cr>", "Prev" },
+--   d = { ":lua require('copilot.suggestion').dismiss()<cr>", "Dismiss" },
+--   t = { ":lua require('copilot.suggestion').toggle_auto_trigger()<cr>", "Toggle Auto Trigger" },
+-- }
 
+wk.mappings['Q'] = { ":qa<cr>", "Quit all", }
 wk.mappings['x'] = { ":xa<cr>", "Save All and Quit", }
 
 wk.mappings["t"] = {
@@ -90,3 +92,11 @@ wk.mappings["t"] = {
 
 wk.mappings['p']['P'] = wk.mappings['p']['p']
 wk.mappings['p']['p'] = { ":e ~/.config/lvim/lua/user/plugins.lua<cr>", "Edit plugins.lua" }
+
+wk.mappings['s']['/'] = wk.mappings['s']['t']
+
+wk.vmappings['a'] = {
+  name = ' ' .. icons.misc.Robot .. ' AI Assistance',
+  ['e'] = { ":Gen Enhance_Wording<CR>", "Enhance Wording" },
+  ['f'] = { ":Gen Fix_Code<CR>", "Fix Code" },
+}

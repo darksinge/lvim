@@ -120,9 +120,6 @@ M.run = function(opts)
   logger('running tests...')
   local lines = {}
 
-  P('args:')
-  P(args)
-
   ---@diagnostic disable-next-line: missing-fields
   Job:new({
     cwd = real_cwd,
@@ -144,7 +141,7 @@ M.run = function(opts)
 end
 
 function M.setup()
-  lvim.keys.normal_mode['<leader>,'] = ":lua require('user.vitest-utils').run()<cr>"
+  lvim.keys.normal_mode['<leader>,v'] = ":lua require('user.vitest-utils').run()<cr>"
 end
 
 return M

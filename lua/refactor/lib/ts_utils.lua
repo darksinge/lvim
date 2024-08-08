@@ -148,17 +148,13 @@ end
 
 ---get the indentation level of `line`
 ---@param line integer
----@param bufnr integer | nil
----@return string | nil, string | nil
-M.get_indent_for_line = function(line, bufnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  local indent_count = ts_indent.get_indent(line)
-  local tabstop = vim.api.nvim_buf_get_option(bufnr, 'tabstop')
-  local expandtab = vim.api.nvim_buf_get_option(bufnr, 'expandtab')
-  local ntabs = (indent_count / tabstop)
-  local tab = string.rep(" ", tabstop)
-  local indent = expandtab and string.rep(" ", tabstop * ntabs) or string.rep("\t", ntabs)
-  return indent, tab
+---@return string
+M.get_indent_for_line = function(line)
+  ---NOTE: I refactored this without testing it so I have no idea if it still
+  ---works, but it wasn't referenced anywhere so ¯\_(ツ)_/¯
+  local indent = vim.fn.indent(line)
+  local whitespace = string.rep(' ', indent)
+  return whitespace
 end
 
 ---@param lines string[]
@@ -172,13 +168,24 @@ local sanitize_newlines = function(lines)
   return result
 end
 
+M.sanitize_newlines = sanitize_newlines
+
+---@param node TSNode
+---@return string[]
+M.stringify_node = function(node)
+  local s = gnt(node)
+  if not s then
+    return {}
+  end
+  return sanitize_newlines({ s })
+end
+
 ---@param node TSNode
 ---@param replacement string[]
 M.replace_node_with_text = function(node, replacement)
   local bufnr = get_bufnr()
   replacement = sanitize_newlines(replacement)
   local start_row, start_col, end_row, end_col = node:range()
-  if end_row == 2202 then return end
   local ok = pcall(vim.api.nvim_buf_set_text, bufnr, start_row, start_col, end_row, end_col, replacement)
   if not ok then
     p('something went wrong!')

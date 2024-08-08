@@ -1,32 +1,72 @@
--- lvim.transparent_window = true
-if vim.g.neovide then
-  lvim.transparent_window = false
-end
+---@alias ColorScheme
+--- |'lunar'
+--- |'gruvbox'
+--- |'gruvbox_material'
+--- |'gruvbox_baby'
+--- |'rose_pine'
+--- |'onedarker'
+--- |'onedark'
+--- |'horizon'
+--- |'tokyonight'
+--- |'tokyonight_night'
+--- |'tokyonight_day'
+--- |'tokyonight_moon'
+--- |'desert'
+--- |'morning'
+--- |'sonokai'
+--- |'sonokai_espresso'
+--- |'sonokai_shusia'
+--- |'edge_aura'
+--- |'edge_neon'
+--- |'ayu'
+--- |'ayu_light'
+--- |'ayu_dark'
 
----@type { [1]: string, opts: table }
-local themes = {
-  lunar = "lunar",
-  gruvbox = "gruvbox",
-  gruvbox_material = "gruvbox-material",
-  gruvbox_baby = "gruvbox-baby",
-  rose_pine = "rose-pine",
-  onedarker = "onedarker",
-  onedark = "onedark",
-  horizon = "horizon",
-  tokyonight = "tokyonight",
-  tokyonight_night = "tokyonight-night",
-  tokyonight_day = "tokyonight-day",
-  tokyonight_moon = "tokyonight-moon",
-  desert = "desert",
-  morning = "morning",
-  sonokai = "sonokai",
-  edge = "edge",
-  ayu = "ayu",
+---@alias ColorSchemaOpts { global: table<string, any> | nil; lualine_theme: string | nil }
+
+---@type table<ColorScheme, { [1]: string; [2]: ColorSchemaOpts } | nil> ;
+local themes_defaults = {
+  lunar = { "lunar" },
+  gruvbox = { "gruvbox" },
+  gruvbox_material = { "gruvbox-material", {
+    global = {
+      -- gruvbox_material_background = 'hard',
+      -- gruvbox_material_background = 'soft',
+      gruvbox_material_background = 'medium', -- default
+
+      gruvbox_material_foreground = 'mix',
+      -- gruvbox_material_foreground = 'original',
+      -- gruvbox_material_foreground = 'material',
+    }
+  } },
+  gruvbox_baby = { "gruvbox-baby", { global = { use_original_palette = true }, lualine_theme = 'gruvbox-baby' } },
+  rose_pine = { "rose-pine" },
+  onedarker = { "onedarker" },
+  onedark = { "onedark" },
+  horizon = { "horizon" },
+  tokyonight = { "tokyonight" },
+  tokyonight_night = { "tokyonight-night" },
+  tokyonight_day = { "tokyonight-day" },
+  tokyonight_moon = { "tokyonight-moon" },
+  desert = { "desert" },
+  morning = { "morning" },
+  sonokai = { "sonokai", { global = { sonokai_style = "default" } } },
+  sonokai_espresso = { "sonokai", { global = { sonokai_style = "espresso" } } },
+  sonokai_shusia = { "sonokai", { global = { sonokai_style = "shusia" } } },
+  edge_aura = { "edge", { lualine_theme = "edge", global = { airline_theme = "edge", edge_style = "aura" } } },
+  edge_neon = { "edge", { lualine_theme = "edge", global = { airline_theme = "edge", edge_style = "neon" } } },
+  ayu = { "ayu", { global = { ayucolor = "mirage" } } },
+  ayu_light = { "ayu", { global = { ayucolor = "light" } } },
+  ayu_dark = { "ayu", { global = { ayucolor = "dark" } } },
 }
 
-local function set(scheme, opts)
-  lvim.colorscheme = scheme
+local M = {}
+
+---@param scheme ColorScheme
+---@param opts ColorSchemaOpts | nil
+local function set_theme(scheme, opts)
   opts = opts or {}
+  lvim.colorscheme = scheme
   if opts.global then
     for k, v in pairs(opts.global) do
       vim.g[k] = v
@@ -38,45 +78,14 @@ local function set(scheme, opts)
   end
 end
 
--- set(themes.lunar)
--- set(themes.onedarker)
--- set(themes.gruvbox)
-set(themes.gruvbox_material, {
-  global = {
-    -- gruvbox_material_background = 'hard',
-    -- gruvbox_material_background = 'soft',
-    gruvbox_material_background = 'medium', -- default
+---@param opts { scheme: ColorScheme | nil, transparent_window: boolean | nil } | nil
+M.setup = function(opts)
+  opts = opts or { scheme = 'gruvbox', transparent_window = false }
 
-    gruvbox_material_foreground = 'mix',
-    -- gruvbox_material_foreground = 'original',
-    -- gruvbox_material_foreground = 'material',
-  }
-})
--- set(themes.gruvbox_baby, {
---   global = {
---     use_original_palette = true,
---   },
---   lualine_theme = 'gruvbox-baby'
--- })
--- set(themes.tokyonight_day)
--- set(themes.tokyonight_moon)
+  lvim.transparent_window = not vim.g.neovide or opts.transparent_window
 
--- set(themes.edge, {
---   lualine_theme = "edge",
---   global = {
---     airline_theme = "edge",
---     edge_style = "aura", -- or 'neon'
---   },
--- })
+  local scheme, scheme_opts = unpack(themes_defaults[opts.scheme])
+  set_theme(scheme, scheme_opts)
+end
 
--- set(themes.sonokai, {
---   global = {
---     sonokai_style = "default", -- or 'espresso' or 'shusia'
---   }
--- })
-
--- set(themes.ayu, {
---   global = {
---     ayucolor = "mirage" -- or 'light' or 'dark'
---   }
--- })
+return M

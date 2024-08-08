@@ -11,15 +11,19 @@ vim.api.nvim_create_user_command('Vitest', function(command)
 
     local debug = args[3] == 'true' and true or false
 
-    return require('user.vitest-utils').run({ cwd = vim.uv.cwd(), root = path, debug = true })
+    return require('user.vitest-utils').run({
+      cwd = '/Users/craig.blackburn/projects/ys/employer-service-develop',
+      root = '/Users/craig.blackburn/projects/ys/employer-service-develop/api',
+      debug = true
+    })
   end
   error('Invalid argument: ' .. vim.inspect(command.args) or 'nil')
 end, { force = true, nargs = '+', bang = true })
 
 vim.api.nvim_create_user_command('TSTypecheck', function(command)
-  require('user.typecheck-ts').run()
-end, { force = true })
-
-vim.api.nvim_create_user_command('TStypecheck', function()
-  require('user.typecheck-ts').run()
-end, { force = true })
+  local ws
+  if #command.args ~= 0 then
+    ws = vim.fn.split(command.args, ' ')[1]
+  end
+  require('user.typecheck-ts').run(ws)
+end, { force = true, nargs = '*', bang = true })

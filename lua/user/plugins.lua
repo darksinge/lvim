@@ -1,15 +1,20 @@
+reload('user.options').setup({
+  colorscheme = 'gruvbox_material'
+})
+
 lvim.plugins = {
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      -- require("copilot").setup({
-      --   suggestions = { enabled = false },
-      --   panel = { enabled = false },
-      -- })
-    end,
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup({
+  --       enabled = false,
+  --       panel = { enabled = false },
+  --       suggestions = { enabled = false },
+  --     })
+  --   end,
+  -- },
 
   {
     'jose-elias-alvarez/typescript.nvim',
@@ -44,17 +49,30 @@ lvim.plugins = {
     end
   },
 
+  -- {
+  --   "christoomey/vim-tmux-navigator",
+  --   config = function()
+  --     vim.cmd [[let g:tmux_navigator_no_mappings = 1]]
+  --     -- vim.g.tmux_navigator_no_mappings = 1
+  --     vim.keymap.set('n', '<C-h>', ':TmuxNavigateLeft<cr>', { silent = true, noremap = true })
+  --     vim.keymap.set('n', '<C-j>', ':TmuxNavigateDown<cr>', { silent = true, noremap = true })
+  --     vim.keymap.set('n', '<C-k>', ':TmuxNavigateUp<cr>', { silent = true, noremap = true })
+  --     vim.keymap.set('n', '<C-l>', ':TmuxNavigateRight<cr>', { silent = true, noremap = true })
+  --   end,
+  -- },
+
   {
-    "christoomey/vim-tmux-navigator",
+    "alexghergh/nvim-tmux-navigation",
     config = function()
-      vim.cmd [[let g:tmux_navigator_no_mappings = 1]]
-      -- vim.g.tmux_navigator_no_mappings = 1
-      vim.keymap.set('n', '<C-h>', ':TmuxNavigateLeft<cr>', { silent = true, noremap = true })
-      vim.keymap.set('n', '<C-j>', ':TmuxNavigateDown<cr>', { silent = true, noremap = true })
-      vim.keymap.set('n', '<C-k>', ':TmuxNavigateUp<cr>', { silent = true, noremap = true })
-      vim.keymap.set('n', '<C-l>', ':TmuxNavigateRight<cr>', { silent = true, noremap = true })
-    end,
+      local tnav = require('nvim-tmux-navigation')
+      tnav.setup({})
+      vim.keymap.set('n', "<C-h>", tnav.NvimTmuxNavigateLeft, { silent = true })
+      vim.keymap.set('n', "<C-j>", tnav.NvimTmuxNavigateDown, { silent = true })
+      vim.keymap.set('n', "<C-k>", tnav.NvimTmuxNavigateUp, { silent = true })
+      vim.keymap.set('n', "<C-l>", tnav.NvimTmuxNavigateRight, { silent = true })
+    end
   },
+
   -- { "tpope/vim-surround" },
   {
     "kylechui/nvim-surround",
@@ -153,6 +171,7 @@ lvim.plugins = {
     config = function()
       require('treesj').setup({
         use_default_keymaps = false,
+        max_join_length = 1000,
       })
       vim.keymap.set('n', '<leader>j', ':TSJToggle<cr>')
     end,
@@ -325,13 +344,13 @@ lvim.plugins = {
     end
   },
 
-  {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function()
-      require('user.treesitter-textobjects')
-    end
-  },
+  -- {
+  --   'nvim-treesitter/nvim-treesitter-textobjects',
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  --   config = function()
+  --     require('user.treesitter-textobjects')
+  --   end
+  -- },
 
   -- NOTE: couldn't get this to work, but want to try later
   -- {
@@ -342,6 +361,173 @@ lvim.plugins = {
   --     vim.g.VM_maps['Find Subword Under'] = '<C-m>'
   --   end
   -- },
+
+  -- This plugin looks promising, but doesn't have good support for mongodb,
+  -- which is my main use case. Should revisit this later and see what I can do
+  -- to add support for mongodb.
+  -- {
+  --   'kristijanhusak/vim-dadbod-ui',
+  --   dependencies = {
+  --     { 'tpope/vim-dadbod', lazy = true },
+  --     {
+  --       'kristijanhusak/vim-dadbod-completion',
+  --       ft = { 'sql', 'mysql', 'plsql', 'js' },
+  --       lazy = true,
+  --     },
+  --   },
+  --   cmd = {
+  --     'DBUI',
+  --     'DBUIToggle',
+  --     'DBUIAddConnection',
+  --     'DBUIFindBuffer',
+  --   },
+  --   init = function()
+  --     -- Your DBUI configuration
+  --     vim.g.db_ui_use_nerd_fonts = 1
+  --   end,
+  -- }
+  {
+    'rmagatti/goto-preview',
+    config = function()
+      local gp = require('goto-preview')
+      gp.setup({
+        default_mappings = false,
+        height = 120,
+        opacity = 5,
+        stack_floating_preview_windows = false,
+        post_open_hook = function(bufnr)
+          vim.keymap.set({ 'n' }, 'q', gp.close_all_win, { buffer = bufnr, noremap = true, silent = true })
+          vim.api.nvim_create_autocmd({ 'WinLeave' }, {
+            buffer = bufnr,
+            callback = function(props)
+              if bufnr == props.buf then
+                pcall(gp.close_all_win)
+                return true
+              end
+            end,
+          })
+        end
+      })
+    end
+  },
+
+  {
+    "David-Kunz/gen.nvim",
+    opts = {
+      model = "llama3",    -- The default model to use.
+      host = "localhost",  -- The host running the Ollama service.
+      --   port = "11434",      -- The port on which the Ollama service is listening.
+      quit_map = "q",      -- set keymap for close the response window
+      retry_map = "<c-r>", -- set keymap to re-send the current prompt
+      --   init = function(options) pcall(io.popen, "ollama serve > /dev/null 2>&1 &") end,
+      --   -- Function to initialize Ollama
+      --   command = function(options)
+      --     local body = { model = options.model, stream = true }
+      --     return "curl --silent --no-buffer -X POST http://" .. options.host .. ":" .. options.port .. "/api/chat -d $body"
+      --   end,
+      --   -- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
+      --   -- This can also be a command string.
+      --   -- The executed command must return a JSON object with { response, context }
+      --   -- (context property is optional).
+      --   -- list_models = '<omitted lua function>', -- Retrieves a list of model names
+      --   display_mode = "float", -- The display mode. Can be "float" or "split".
+      --   show_prompt = false,    -- Shows the prompt submitted to Ollama.
+      show_model = false, -- Displays which model you are using at the beginning of your chat session.
+      --   no_auto_close = false,  -- Never closes the window automatically.
+      --   debug = false           -- Prints errors and the command which is run.
+    },
+    config = function()
+      require('user.gen')
+    end,
+  },
+
+  {
+    "jackMort/ChatGPT.nvim",
+    event = "VeryLazy",
+    opts = {
+      chat = {
+        keymaps = {
+          close = "<C-c>",
+          yank_last = "<C-y>",
+          yank_last_code = "<C-k>",
+          scroll_up = "<C-u>",
+          scroll_down = "<C-d>",
+          new_session = "<C-m>",
+          cycle_windows = "<Tab>",
+          cycle_modes = "<C-f>",
+          next_message = "<C-j>",
+          prev_message = "<C-k>",
+          select_session = "<Space>",
+          rename_session = "r",
+          delete_session = "d",
+          draft_message = "<C-r>",
+          edit_message = "e",
+          delete_message = "d",
+          toggle_settings = "<C-o>",
+          toggle_sessions = "<C-p>",
+          toggle_help = "<C-h>",
+          toggle_message_role = "<C-r>",
+          toggle_system_role_open = "<C-s>",
+          stop_generating = "<C-x>",
+        },
+        openai_params = {
+          model = "gpt-4-turbo",
+          frequency_penalty = 0,
+          presence_penalty = 0,
+          max_tokens = 300,
+          temperature = 0,
+          top_p = 1,
+          n = 1,
+        },
+        openai_edit_params = {
+          model = "gpt-4-turbo",
+          frequency_penalty = 0,
+          presence_penalty = 0,
+          temperature = 0,
+          top_p = 1,
+          n = 1,
+        },
+      },
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "folke/trouble.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  },
+
+  {
+    'tpope/vim-unimpaired',
+  },
+
+  {
+    'tpope/vim-fugitive',
+    cmd = {
+      "G",
+      "Git",
+      "Gdiffsplit",
+      "Gread",
+      "Gwrite",
+      "Ggrep",
+      "GMove",
+      "GDelete",
+      "GBrowse",
+      "GRemove",
+      "GRename",
+      "Glgrep",
+      "Gedit"
+    },
+    ft = { 'fugitive' },
+  },
+
+  -- {
+  --   'tummetott/unimpaired.nvim',
+  --   event = 'VeryLazy',
+  --   opts = {
+  --     -- add options here if you wish to override the default settings
+  --   },
+  -- }
 }
 
 lvim.builtin.lualine.on_config_done = function(lualine)

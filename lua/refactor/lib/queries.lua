@@ -17,7 +17,7 @@ local get_query_results = function(querystring, match_index, node, limit)
   local query = ts.query.parse(lang, querystring)
   local results = {}
   local count = 0
-  for _, matches, _ in query:iter_matches(node, bufnr, node:start(), node:end_()) do
+  for _, matches, _ in query:iter_matches(node, bufnr, node:start(), node:end_(), {}) do
     local match = matches[match_index]
 
     if match then

@@ -26,9 +26,10 @@ local function find_project_root(start_path)
 end
 
 M.find_test_file = function()
-  -- Get the current buffer's file name
+  -- Get the current buffer's file name and path
   local current_file = vim.fn.expand('%:t:r') -- file name without extension
-  local current_ext = vim.fn.expand('%:e')    -- file extension  local current_file = vim.fn.expand('%:t')
+  local current_ext = vim.fn.expand('%:e')    -- file extension
+  local current_path = vim.fn.expand('%:p:h') -- full path of the current file
 
   if string.find(current_file, '%.test$') ~= nil then
     return
@@ -40,12 +41,44 @@ M.find_test_file = function()
   -- Construct the test directory path
   local test_dir = root_dir .. '/test'
 
+  -- Get the relative path from the project root to the current file
+  local relative_path = string.sub(current_path, #root_dir + 2)
+
+  -- Strip the first directory from the relative path
+  local _, _, stripped_path = string.find(relative_path, "^[^/]+/(.*)$")
+  stripped_path = stripped_path or relative_path -- If there's no subdirectory, use the full relative path
+
+  -- Construct the full path for the test file
+  local test_file_path = test_dir .. '/' .. stripped_path
+  local test_file_name = current_file .. '.test.' .. current_ext
+  local full_test_file_path = test_file_path .. '/' .. test_file_name
+
   -- Use vim.fn.globpath to search for the test file
   local pattern = '**/' .. current_file .. '.*.' .. current_ext
   local test_files = vim.fn.globpath(test_dir, pattern, false, 1)
 
   if #test_files == 0 then
-    print("No test file found for " .. current_file)
+    -- No test file found, prompt to create one
+    local create_file = vim.fn.input("No test file found. Create one? (y/n): ")
+    if create_file:lower() == 'y' then
+      -- Create the directory structure if it doesn't exist
+      vim.fn.mkdir(test_file_path, "p")
+
+      -- Create the file
+      local file = io.open(full_test_file_path, "w")
+      if file then
+        file:close()
+        print("Created new test file: " .. full_test_file_path)
+      else
+        print("Failed to create test file: " .. full_test_file_path)
+        return
+      end
+
+      -- Open the newly created file in a new buffer
+      vim.cmd('edit ' .. full_test_file_path)
+    else
+      print("No test file created.")
+    end
   elseif #test_files == 1 then
     vim.cmd('edit ' .. test_files[1])
   else

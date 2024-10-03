@@ -153,6 +153,11 @@ M.setup = function(opts)
     shorten = 4,
   }
 
+  -- lvim.builtin.telescope.pickers.git_files.hidden = true
+  lvim.builtin.telescope.pickers.git_files.find_command = { 'git', 'ls-files', '--cached', '--others',
+    '--exclude-standard', '--include=.env*' }
+  lvim.builtin.telescope.pickers.find_files.hidden = false
+
   -- lvim.builtin.telescope.theme
   -- lvim.builtin.cmp.sources.H
 end

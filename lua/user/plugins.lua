@@ -3,6 +3,8 @@ reload('user.options').setup({
 })
 
 lvim.plugins = {
+  -- -- Copilot is configured at the bottom of this file!
+  -- -- DO NOT UNCOMMENT THIS BLOCK
   -- {
   --   "zbirenbaum/copilot.lua",
   --   cmd = "Copilot",
@@ -506,6 +508,10 @@ lvim.plugins = {
   },
 
   {
+    -- `:Gwrite[!]`: write the current file to the index
+    --      `:only`: close all windows apart from the current one
+    --         `]c`: jump to next hunk
+    --         `]n`: jump to next conflict marker
     'tpope/vim-fugitive',
     cmd = {
       "G",
@@ -532,6 +538,64 @@ lvim.plugins = {
   --     -- add options here if you wish to override the default settings
   --   },
   -- }
+
+  {
+    "jiaoshijie/undotree",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = true,
+    keys = {
+      -- { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
+    },
+  },
+
+  { 'akinsho/git-conflict.nvim', version = "*", config = true },
+
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    version = false, -- set this if you want to always pull the latest change
+    opts = {
+      -- add any opts here
+    },
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = "make BUILD_FROM_SOURCE=true",
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua",      -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  },
 }
 
 lvim.builtin.lualine.on_config_done = function(lualine)
@@ -557,8 +621,30 @@ table.insert(lvim.plugins, {
   event = "InsertEnter",
   dependencies = { "zbirenbaum/copilot.lua" },
   config = function()
-    local ok, cmp = pcall(require, "copilot_cmp")
-    if ok then cmp.setup({}) end
+    vim.defer_fn(function()
+      require('copilot').setup({
+        -- enabled = false,
+        -- panel = { enabled = false },
+        -- suggestions = { enabled = false },
+      });
+      local has_words_before = function()
+        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+      end
+      local cmp = require('copilot_cmp')
+      cmp.setup({
+        mapping = {
+          ["<Tab>"] = vim.schedule_wrap(function(fallback)
+            if cmp.visible() and has_words_before() then
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            else
+              fallback()
+            end
+          end),
+        },
+      })
+    end, 100)
   end,
 })
 

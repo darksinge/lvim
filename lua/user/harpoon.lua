@@ -27,8 +27,8 @@ M.harpoon = harpoon
 
 M.wk_mappings = {
   name = ' ' .. lvim.icons.ui.BookMark .. " Harpoon",
-  t = { function() toggle_telescope(harpoon:list()) end, lvim.icons.ui.Telescope .. " List" },
-  T = { function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, lvim.icons.ui.List .. " Default List" },
+  t = { function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, lvim.icons.ui.List .. " List" },
+  T = { function() toggle_telescope(harpoon:list()) end, lvim.icons.ui.Telescope .. " Telescope List" },
   m = { function() harpoon:list():add() end, lvim.icons.ui.BookMark .. " Mark buffer" },
   a = { function() harpoon:list():select(1) end, lvim.icons.ui.BoxChecked .. " Select 1" },
   s = { function() harpoon:list():select(2) end, lvim.icons.ui.BoxChecked .. " Select 2" },

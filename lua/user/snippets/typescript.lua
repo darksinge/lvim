@@ -11,10 +11,22 @@ M.snippets = {}
 
 M.auto_snippets = {
   {
+    name = 'mongodb_aggregate_lookup',
+    snip = {
+      s('$$lookup', fmt([[{
+  $lookup: {
+    from: '+1-',
+    localField: '+2-',
+    foreignField: '+3-',
+    as: '+4-',
+  },
+},]], { i(1), i(2), i(3), i(4) }, { delimiters = '+-' })),
+    },
+  },
+  {
     name = 'promise_then_catch',
     snip = {
-      s('.thentry', fmt([[.then(() => {
-  +1-
+      s('.thentry', fmt([[.then((+1-) => {
   process.exit(0);
 })
 .catch((error) => {
@@ -43,7 +55,7 @@ M.auto_snippets = {
   {
     name = 'new ObjectId()',
     snip = {
-      s(':noid', fmt([[new ObjectId(){}]], { i(0) }))
+      s(':noid', fmt([[new ObjectId({})]], { i(0) }))
     },
     compat = { 'javascript', 'typescriptreact' }
   },

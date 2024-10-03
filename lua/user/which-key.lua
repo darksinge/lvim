@@ -1,8 +1,12 @@
 local icons = lvim.icons
 local wk = lvim.builtin.which_key
+local _, telescope = pcall(require, "telescope.builtin")
 
 -- I never use this, except when fat fingering
 -- wk.mappings["a"] = { ":Alpha<cr>", icons.ui.Dashboard .. " Dashboard" }
+
+wk.mappings['f'] = { "<cmd>Telescope find_files<cr>", "Find File" }
+wk.mappings['s']['f'] = { function() telescope.git_files() end, "Find File" }
 
 wk.mappings["v"] = {
   name = ' ' .. icons.diagnostics.Trace .. ' Vitest',
@@ -105,6 +109,11 @@ wk.mappings['p']['P'] = wk.mappings['p']['p']
 wk.mappings['p']['p'] = { ":e ~/.config/lvim/lua/user/plugins.lua<cr>", "Edit plugins.lua" }
 
 wk.mappings['s']['/'] = wk.mappings['s']['t']
+
+wk.mappings['b']['y'] = { ":let @+ = expand('%:t')<cr>", " Yank file name" }
+wk.mappings['b']['Y'] = { ":let @+ = expand('%')<cr>", " Yank file path" }
+
+wk.mappings['g']['m'] = { ':GitConflictListQf<cr>', icons.git.FileUnmerged .. ' List Merge Conflicts' }
 
 wk.vmappings['a'] = {
   name = ' ' .. icons.misc.Robot .. ' AI Assistance',

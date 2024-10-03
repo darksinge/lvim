@@ -162,8 +162,18 @@ vim.diagnostic.config({
 })
 
 lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
-table.insert(lvim.builtin.cmp.sources, 1, { name = "copilot" })
 
+-- for _, source in ipairs(lvim.builtin.cmp.sources) do
+--   if source.name == 'nvim_lsp' then
+--     source.group_index = 1
+--   elseif source.name == 'copilot' then
+--     source.group_index = 2
+--   else
+--     source.group_index = 3
+--   end
+-- end
+
+-- table.insert(lvim.builtin.cmp.sources, #lvim.builtin.cmp.sources + 1, { name = "copilot", group_index = 3 })
 
 local null_ls = require("null-ls")
 null_ls.register({

@@ -47,6 +47,21 @@ M.auto_snippets = {
   {
     -- for when you need to shrug
     s(':shrug', t('¯\\_(ツ)_/¯'))
+  },
+  {
+    s(':ty', t('taxonomy')),
+  },
+  {
+    s(':ties', t('taxonomies')),
+  },
+  {
+    s(':Ty', t('Taxonomy')),
+  },
+  {
+    s(':Td', t('TaxonomyDocument')),
+  },
+  {
+    s(':Tm', t('TaxonomyModel')),
   }
 }
 

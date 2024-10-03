@@ -67,29 +67,29 @@ M.setup = function()
   setup_lang('javascript', require('user.snippets.javascript'))
   -- setup_lang('typescriptreact', require('user.snippets.typescript-react'))
 
-  -- vim.keymap.set({ "i", "s" }, "<localleader>l", function()
-  --   if ls.expand_or_jumpable() then
-  --     return ls.expand_or_jump()
-  --   end
-  -- end, { silent = true })
+  vim.keymap.set({ "i", "s" }, "<M-s>j", function()
+    if ls.expand_or_jumpable() then
+      return ls.expand_or_jump()
+    end
+  end, { silent = true })
 
-  -- vim.keymap.set({ "i", "s" }, "<localleader>h", function()
-  --   if ls.jumpable(-1) then
-  --     return ls.jump(-1)
-  --   end
-  -- end, { silent = true })
+  vim.keymap.set({ "i", "s" }, "<M-s>k", function()
+    if ls.jumpable(-1) then
+      return ls.jump(-1)
+    end
+  end, { silent = true })
 
-  -- vim.keymap.set({ "i", "n" }, "<localleader>.", function()
-  --   if ls.choice_active() then
-  --     return ls.change_choice(-1)
-  --   end
-  -- end, { silent = true })
+  vim.keymap.set({ "i", "n" }, "<M-s>n", function()
+    if ls.choice_active() then
+      return ls.change_choice(-1)
+    end
+  end, { silent = true })
 
-  -- vim.keymap.set({ "i", "n" }, "<localleader>,", function()
-  --   if ls.choice_active() then
-  --     return ls.change_choice(1)
-  --   end
-  -- end, { silent = true })
+  vim.keymap.set({ "i", "n" }, "<M-s>p", function()
+    if ls.choice_active() then
+      return ls.change_choice(1)
+    end
+  end, { silent = true })
 end
 
 M.setup()

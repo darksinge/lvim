@@ -27,3 +27,30 @@ vim.api.nvim_create_user_command('TSTypecheck', function(command)
   end
   require('user.typecheck-ts').run(ws)
 end, { force = true, nargs = '*', bang = true })
+
+vim.api.nvim_create_user_command('Scratch', function(opts)
+  local ft = opts.args
+  if ft == 'js' then
+    ft = 'javascript'
+  end
+
+  if ft == 'ts' then
+    ft = 'typescript'
+  end
+
+  vim.cmd('vnew')
+  vim.bo.buftype = 'nofile'
+  vim.bo.bufhidden = 'hide'
+  vim.bo.swapfile = false
+  vim.bo.filetype = ft
+
+  local bufnr = vim.api.nvim_get_current_buf()
+
+  if ft == 'javascript' then
+    vim.keymap.set('n', '<leader>,,', ':w !node<cr>', { noremap = true, buffer = bufnr, silent = true })
+  end
+
+  if ft == 'typescript' then
+    vim.keymap.set('n', '<leader>,,', ':w !tsx<cr>', { noremap = true, buffer = bufnr, silent = true })
+  end
+end, { nargs = 1, force = true })

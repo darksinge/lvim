@@ -15,12 +15,13 @@ function M.grep_config()
 end
 
 function M.config()
-  local opts = {
-    -- defaults = {
-    --   file_ignore_patterns = {}
-    -- }
-  }
-  require('telescope').setup(opts)
+  -- local opts = {
+  --   -- defaults = {
+  --   --   file_ignore_patterns = {}
+  --   -- }
+  -- }
+  -- require('telescope').setup(opts)
+  lvim.builtin.telescope.pickers.git_files.hidden = true
 end
 
 return M

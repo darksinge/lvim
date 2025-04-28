@@ -115,8 +115,32 @@ wk.mappings['b']['Y'] = { ":let @+ = expand('%')<cr>", " Yank file path" }
 
 wk.mappings['g']['m'] = { ':GitConflictListQf<cr>', icons.git.FileUnmerged .. ' List Merge Conflicts' }
 
-wk.vmappings['a'] = {
-  name = ' ' .. icons.misc.Robot .. ' AI Assistance',
-  ['e'] = { ":Gen Enhance_Wording<CR>", "Enhance Wording" },
-  ['f'] = { ":Gen Fix_Code<CR>", "Fix Code" },
-}
+-- wk.vmappings['a'] = {
+--   name = ' ' .. icons.misc.Robot .. ' AI Assistance',
+--   ['e'] = { ":Gen Enhance_Wording<CR>", "Enhance Wording" },
+--   ['f'] = { ":Gen Fix_Code<CR>", "Fix Code" },
+-- }
+
+local avante_config_ok, avante_config = pcall(require, 'user.avante')
+if avante_config_ok then
+  local mappings = avante_config.wk_mappings
+
+  local function assign_nested_mappings(src, dest)
+    for key, value in pairs(src) do
+      -- print('mappings: ' .. 'key=' .. vim.inspect(key) .. ', value=' .. vim.inspect(value))
+      if (type(value) == 'string') then
+        dest[key] = value
+      elseif type(value) == "table" then
+        if type(dest[key]) ~= "table" then
+          dest[key] = {}
+        end
+        assign_nested_mappings(value, dest[key])
+      else
+        dest[key] = value
+      end
+    end
+  end
+
+  wk.mappings["a"] = {}
+  assign_nested_mappings(mappings, wk.mappings["a"])
+end

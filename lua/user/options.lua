@@ -91,6 +91,13 @@ M.setup = function(opts)
   vim.g.maplocalleader = ','
   lvim.lsp.automatic_servers_installation = false
 
+  local ignore_dirs = { '^.sst/dist$', '^.sst/artifacts$', 'build', '^.git$', '^node_modules$' }
+  for _, dir in ipairs(ignore_dirs) do
+    if not vim.list_contains(lvim.builtin.nvimtree.setup.filesystem_watchers.ignore_dirs, dir) then
+      table.insert(lvim.builtin.nvimtree.setup.filesystem_watchers.ignore_dirs, dir)
+    end
+  end
+
   lvim.transparent_window = false
 
   if vim.g.neovide then

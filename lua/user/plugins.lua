@@ -1,5 +1,6 @@
-reload('user.options').setup({
-  colorscheme = 'gruvbox_material'
+reload("user.options").setup({
+  -- colorscheme = "gruvbox_material",
+  colorscheme = "lunar",
 })
 
 lvim.plugins = {
@@ -19,7 +20,7 @@ lvim.plugins = {
   -- },
 
   {
-    'jose-elias-alvarez/typescript.nvim',
+    "jose-elias-alvarez/typescript.nvim",
   },
 
   { "morhetz/gruvbox" },
@@ -37,7 +38,7 @@ lvim.plugins = {
     event = "BufRead",
     config = function()
       require("todo-comments").setup()
-    end
+    end,
   },
 
   {
@@ -48,7 +49,7 @@ lvim.plugins = {
         -- dir = vim.fn.expand(vim.fn.stdpath "state" .. "/sessions/"),
         -- options = { "buffers", "curdir", "tabpages", "winsize" }
       })
-    end
+    end,
   },
 
   -- {
@@ -66,13 +67,13 @@ lvim.plugins = {
   {
     "alexghergh/nvim-tmux-navigation",
     config = function()
-      local tnav = require('nvim-tmux-navigation')
+      local tnav = require("nvim-tmux-navigation")
       tnav.setup({})
-      vim.keymap.set('n', "<C-h>", tnav.NvimTmuxNavigateLeft, { silent = true })
-      vim.keymap.set('n', "<C-j>", tnav.NvimTmuxNavigateDown, { silent = true })
-      vim.keymap.set('n', "<C-k>", tnav.NvimTmuxNavigateUp, { silent = true })
-      vim.keymap.set('n', "<C-l>", tnav.NvimTmuxNavigateRight, { silent = true })
-    end
+      vim.keymap.set("n", "<C-h>", tnav.NvimTmuxNavigateLeft, { silent = true })
+      vim.keymap.set("n", "<C-j>", tnav.NvimTmuxNavigateDown, { silent = true })
+      vim.keymap.set("n", "<C-k>", tnav.NvimTmuxNavigateUp, { silent = true })
+      vim.keymap.set("n", "<C-l>", tnav.NvimTmuxNavigateRight, { silent = true })
+    end,
   },
 
   -- { "tpope/vim-surround" },
@@ -84,7 +85,7 @@ lvim.plugins = {
       require("nvim-surround").setup({
         -- Configuration here, or leave empty to use defaults
       })
-    end
+    end,
   },
   { "felipec/vim-sanegx",   event = "BufRead" },
   {
@@ -109,7 +110,7 @@ lvim.plugins = {
 
   {
     "ThePrimeagen/harpoon",
-    branch = 'harpoon2',
+    branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
 
@@ -123,16 +124,16 @@ lvim.plugins = {
   -- },
 
   {
-    'folke/flash.nvim',
-    event = 'VeryLazy',
+    "folke/flash.nvim",
+    event = "VeryLazy",
     opts = {},
     config = function()
-      require('user.flash')
-    end
+      require("user.flash")
+    end,
   },
 
   {
-    "nvim-lua/lsp-status.nvim"
+    "nvim-lua/lsp-status.nvim",
   },
 
   -- {
@@ -148,17 +149,17 @@ lvim.plugins = {
   -- },
 
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    "rose-pine/neovim",
+    name = "rose-pine",
     config = function()
       require("rose-pine").setup({
-        dark_variant = 'moon',
+        dark_variant = "moon",
         disable_italics = true,
       })
-      if vim.g.colors_name == 'rose-pine' then
-        vim.cmd('colorscheme rose-pine')
+      if vim.g.colors_name == "rose-pine" then
+        vim.cmd("colorscheme rose-pine")
       end
-    end
+    end,
   },
 
   -- {
@@ -172,18 +173,18 @@ lvim.plugins = {
   -- },
 
   {
-    'Wansmer/treesj',
-    dependencies = { 'nvim-treesitter' },
+    "Wansmer/treesj",
+    dependencies = { "nvim-treesitter" },
     config = function()
-      require('treesj').setup({
+      require("treesj").setup({
         use_default_keymaps = false,
         max_join_length = 1000,
       })
-      vim.keymap.set('n', '<leader>j', ':TSJToggle<cr>')
+      vim.keymap.set("n", "<leader>j", ":TSJToggle<cr>")
     end,
   },
 
-  'lunarvim/lunar.nvim',
+  "lunarvim/lunar.nvim",
 
   -- -- { "tzachar/cmp-tabnine", event = "InsertEnter", build = "./install.sh", },
   -- {
@@ -197,8 +198,8 @@ lvim.plugins = {
   {
     "lvimuser/lsp-inlayhints.nvim",
     config = function()
-      require('user.inlay-hints')
-    end
+      require("user.inlay-hints")
+    end,
   },
 
   {
@@ -210,7 +211,7 @@ lvim.plugins = {
     "junegunn/fzf",
     build = function()
       vim.fn["fzf#install"]()
-    end
+    end,
   },
 
   -- {
@@ -220,13 +221,13 @@ lvim.plugins = {
   --   end
   -- },
 
-  { 'kevinhwang91/nvim-bqf' },
+  { "kevinhwang91/nvim-bqf" },
 
-  { 'nathom/filetype.nvim' },
+  { "nathom/filetype.nvim" },
 
   {
     -- upstream
-    'MunifTanjim/nui.nvim',
+    "MunifTanjim/nui.nvim",
 
     -- -- local
     -- dir = vim.env.HOME .. '/projects/personal/nui.nvim'
@@ -237,10 +238,10 @@ lvim.plugins = {
   },
 
   {
-    dir = vim.env.HOME .. '/projects/personal/nui-popup'
+    dir = vim.env.HOME .. "/projects/personal/nui-popup",
   },
 
-  { 'darksinge/neodash.nvim' },
+  { "darksinge/neodash.nvim" },
 
   -- {
   --   dir = vim.env.HOME .. '/projects/personal/plink.nvim',
@@ -252,12 +253,12 @@ lvim.plugins = {
   -- },
 
   {
-    'darksinge/plink.nvim',
-    commit = 'f8148f9',
+    "darksinge/plink.nvim",
+    commit = "f8148f9",
     dependencies = {
-      'nvim-lua/plenary.nvim',
-      'darksinge/neodash.nvim',
-      'MunifTanjim/nui.nvim',
+      "nvim-lua/plenary.nvim",
+      "darksinge/neodash.nvim",
+      "MunifTanjim/nui.nvim",
     },
   },
 
@@ -329,25 +330,25 @@ lvim.plugins = {
   -- },
 
   {
-    'windwp/nvim-ts-autotag',
+    "windwp/nvim-ts-autotag",
     config = function()
-      require('nvim-ts-autotag').setup()
-      require('nvim-treesitter.configs').setup({
+      require("nvim-ts-autotag").setup()
+      require("nvim-treesitter.configs").setup({
         autotag = {
           enable = true,
-        }
+        },
       })
-    end
+    end,
   },
 
   {
     "nvim-neotest/neotest",
     dependencies = {
-      'marilari88/neotest-vitest',
+      "marilari88/neotest-vitest",
     },
     config = function()
-      require('user.neotest')
-    end
+      require("user.neotest")
+    end,
   },
 
   -- {
@@ -393,17 +394,17 @@ lvim.plugins = {
   --   end,
   -- }
   {
-    'rmagatti/goto-preview',
+    "rmagatti/goto-preview",
     config = function()
-      local gp = require('goto-preview')
+      local gp = require("goto-preview")
       gp.setup({
         default_mappings = false,
         height = 120,
         opacity = 5,
         stack_floating_preview_windows = false,
         post_open_hook = function(bufnr)
-          vim.keymap.set({ 'n' }, 'q', gp.close_all_win, { buffer = bufnr, noremap = true, silent = true })
-          vim.api.nvim_create_autocmd({ 'WinLeave' }, {
+          vim.keymap.set({ "n" }, "q", gp.close_all_win, { buffer = bufnr, noremap = true, silent = true })
+          vim.api.nvim_create_autocmd({ "WinLeave" }, {
             buffer = bufnr,
             callback = function(props)
               if bufnr == props.buf then
@@ -412,9 +413,9 @@ lvim.plugins = {
               end
             end,
           })
-        end
+        end,
       })
-    end
+    end,
   },
 
   {
@@ -443,7 +444,7 @@ lvim.plugins = {
       --   debug = false           -- Prints errors and the command which is run.
     },
     config = function()
-      require('user.gen')
+      require("user.gen")
     end,
   },
 
@@ -499,12 +500,12 @@ lvim.plugins = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
       "folke/trouble.nvim",
-      "nvim-telescope/telescope.nvim"
-    }
+      "nvim-telescope/telescope.nvim",
+    },
   },
 
   {
-    'tpope/vim-unimpaired',
+    "tpope/vim-unimpaired",
   },
 
   {
@@ -512,7 +513,7 @@ lvim.plugins = {
     --      `:only`: close all windows apart from the current one
     --         `]c`: jump to next hunk
     --         `]n`: jump to next conflict marker
-    'tpope/vim-fugitive',
+    "tpope/vim-fugitive",
     cmd = {
       "G",
       "Git",
@@ -526,9 +527,9 @@ lvim.plugins = {
       "GRemove",
       "GRename",
       "Glgrep",
-      "Gedit"
+      "Gedit",
     },
-    ft = { 'fugitive' },
+    ft = { "fugitive" },
   },
 
   -- {
@@ -548,7 +549,7 @@ lvim.plugins = {
     },
   },
 
-  { 'akinsho/git-conflict.nvim', version = "*", config = true },
+  { "akinsho/git-conflict.nvim", version = "*", config = true },
 
   {
     "yetone/avante.nvim",
@@ -556,11 +557,20 @@ lvim.plugins = {
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
-      -- add any opts here
+      -- provider = 'openai',
+      provider = "claude",
+      auto_suggestions_provider = "copilot",
+      claude = {
+        api_key_name = { "pass", "show", "craig/anthropic/api-key/avante.nvim" },
+      },
+      -- debug = true,
+      -- system_prompt = "Always respond in English. Act like you don't know any other languages such as French.\n" ..
+      --     "Be concise in your responses. Do not over explain.\n" ..
+      --     default_config.system_prompt
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    -- NOTE: It's not that I WANT to build from source, but this stupid plugin doesn't work unless I do
     build = "make BUILD_FROM_SOURCE=true",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
@@ -568,31 +578,68 @@ lvim.plugins = {
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua",      -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
-          },
-        },
-      },
+      -- "zbirenbaum/copilot.lua",      -- for providers='copilot'
+      -- {
+      --   -- support for image pasting
+      --   "HakonHarnes/img-clip.nvim",
+      --   event = "VeryLazy",
+      --   opts = {
+      --     -- recommended settings
+      --     default = {
+      --       embed_image_as_base64 = false,
+      --       prompt_for_file_name = false,
+      --       drag_and_drop = {
+      --         insert_mode = true,
+      --       },
+      --       -- required for Windows users
+      --       use_absolute_path = true,
+      --     },
+      --   },
+      -- },
       {
         -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
+        "MeanderingProgrammer/render-markdown.nvim",
         opts = {
           file_types = { "markdown", "Avante" },
         },
         ft = { "markdown", "Avante" },
+      },
+    },
+
+    -- config = function()
+    --   require('avante').setup()
+
+    --   -- require('avante').setup({
+    --   --   provider = "claude",
+    --   --   claude = {
+    --   --     api_key_name = { "pass", "show", "craig/anthropic/api-key/avante.nvim" },
+    --   --   },
+    --   -- })
+
+    --   --   local default_config = require('avante.config').defaults
+    --   --   print('default_config:' .. vim.inspect(default_config))
+    --   -- require("user.avante").setup({
+    --   --   -- provider = 'openai',
+    --   --   provider = "claude",
+    --   --   -- auto_suggestions_provider = "copilot",
+    --   --   claude = {
+    --   --     api_key_name = { "pass", "show", "craig/anthropic/api-key/avante.nvim" },
+    --   --   },
+    --   --   -- debug = true,
+    --   --   -- system_prompt = "Always respond in English. Act like you don't know any other languages such as French.\n" ..
+    --   --   --     "Be concise in your responses. Do not over explain.\n" ..
+    --   --   --     default_config.system_prompt
+    --   -- })
+    -- end,
+  },
+
+  {
+    "mxsdev/nvim-dap-vscode-js",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      {
+        "microsoft/vscode-js-debug",
+        build = "npm install && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
       },
     },
   },
@@ -612,7 +659,7 @@ lvim.builtin.lualine.on_config_done = function(lualine)
 end
 
 lvim.lazy.opts.dev = {
-  path = '~/projects/personal',
+  path = "~/projects/personal",
   fallback = false,
 }
 
@@ -622,17 +669,20 @@ table.insert(lvim.plugins, {
   dependencies = { "zbirenbaum/copilot.lua" },
   config = function()
     vim.defer_fn(function()
-      require('copilot').setup({
+      require("copilot").setup({
         -- enabled = false,
         -- panel = { enabled = false },
         -- suggestions = { enabled = false },
-      });
+      })
       local has_words_before = function()
-        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+          return false
+        end
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+        return col ~= 0
+            and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
       end
-      local cmp = require('copilot_cmp')
+      local cmp = require("copilot_cmp")
       cmp.setup({
         mapping = {
           ["<Tab>"] = vim.schedule_wrap(function(fallback)
@@ -649,7 +699,7 @@ table.insert(lvim.plugins, {
 })
 
 table.insert(lvim.plugins, 1, {
-  'folke/neoconf.nvim',
+  "folke/neoconf.nvim",
   -- priority = 9999,
   -- init = function()
   --   require('neoconf').setup()

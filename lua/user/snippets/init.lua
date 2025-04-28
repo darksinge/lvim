@@ -65,6 +65,7 @@ M.setup = function()
   setup_lang('lua', require('user.snippets.lua'))
   setup_lang('typescript', require('user.snippets.typescript'))
   setup_lang('javascript', require('user.snippets.javascript'))
+  setup_lang('bash', require('user.snippets.bash'))
   -- setup_lang('typescriptreact', require('user.snippets.typescript-react'))
 
   vim.keymap.set({ "i", "s" }, "<M-s>j", function()

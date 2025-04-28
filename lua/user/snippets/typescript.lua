@@ -102,6 +102,9 @@ M.auto_snippets = {
     })
     )
   },
+  {
+    s(':p.e', fmt('process.exit({}0);', { i(0) }))
+  },
 }
 
 return M

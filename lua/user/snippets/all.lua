@@ -62,6 +62,15 @@ M.auto_snippets = {
   },
   {
     s(':Tm', t('TaxonomyModel')),
+  },
+  {
+    s(':Tb', t('TaxonomyBuilder')),
+  },
+  {
+    s(':Ts', t('TaxonomyService')),
+  },
+  {
+    s(':Tc', t('TaxonomyCommand')),
   }
 }
 

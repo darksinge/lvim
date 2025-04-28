@@ -150,7 +150,7 @@ linters.setup({
   {
     command = "eslint_d",
     -- command = "eslint",
-    filetypes = { "javascript", "typescript", "typescriptreact", "json" }
+    filetypes = { "javascript", "typescript", "typescriptreact", "json" },
   },
 })
 
@@ -181,44 +181,105 @@ null_ls.register({
   filetypes = { 'javascript', 'typescript', 'typescriptreact', 'lua' },
   generator = {
     fn = function(params)
+      -- -- example of `params.lsp_params`
+      -- {
+      --   client_id = 2,
+      --   context = {
+      --     diagnostics = {},
+      --     triggerKind = 1
+      --   },
+      --   method = "textDocument/codeAction",
+      --   range = {
+      --     ["end"] = <1>{
+      --       character = 30,
+      --       line = 272
+      --     },
+      --     start = <table 1>
+      --   },
+      --   textDocument = {
+      --     uri = "file:///Users/craig.blackburn/projects/ys/CRT-3350-refactor-taxonomies-service/test/services/taxonomy.service.v2/taxonomy.service.v2.test.ts"
+      --   }
+      -- }
+
+      -- -- example diagnostic object for eslint
+      -- {
+      --   bufnr = 9,
+      --   code = "@typescript-eslint/no-unused-vars",
+      --   col = 2,
+      --   end_col = 35,
+      --   end_lnum = 4,
+      --   end_row = 5,
+      --   lnum = 4,
+      --   message = "'createRootNodeWithSiblingFromGrid' is defined but never used. Allowed unused vars must match /^_+$/u.",
+      --   namespace = 50,
+      --   row = 5,
+      --   severity = 2,
+      --   source = "eslint_d",
+      --   user_data = {
+      --     fixable = false
+      --   }
+      -- }
+
       local actions = {}
-      if not (params and params.lsp_params and params.lsp_params.context and params.lsp_params.context.diagnostics) then
-        return actions
+
+      local start_line = nil
+      if params.lsp_params and params.lsp_params.range and params.lsp_params.range.start then
+        start_line = params.lsp_params.range.start.line
       end
+
+
+      -- -- NOTE: This used to work... then suddenly it didn't ¯\_(ツ)_/¯
+      -- if not (params and params.lsp_params and params.lsp_params.context and params.lsp_params.context.diagnostics) then
+      --   return actions
+      -- end
+      -- local diagnostics = params.lsp_params.context.diagnostics
 
       ---@type table<string, boolean>
       local seen = {}
-      local diagnostics = params.lsp_params.context.diagnostics
+
+      -- As noted above, I used to get diagnostics from
+      -- `params.lsp_params.context.diagnostics`. I switched to using
+      -- `vim.diagnotic.get` and it works using this method.
+      local diagnostics = vim.diagnostic.get(params.bufnr)
+      if #diagnostics == 0 then
+        return actions
+      end
+
       for _, diagnostic in ipairs(diagnostics) do
-        if diagnostic.source == 'eslint' then
+        if diagnostic.source == 'eslint' or diagnostic.source == 'eslint_d' then
           local code = diagnostic.code
-          if seen[code] then
+          if code == nil or seen[code] or diagnostic.lnum ~= start_line then
             goto continue
           else
             seen[code] = true
           end
 
           table.insert(actions, {
-            title = "Disable ESLint rule '" .. code .. "' for this line",
+            title = "Disable '" .. code .. "' for line " .. diagnostic.lnum,
             action = function()
               ---@type {character: number; line: number}
-              local start = diagnostic.range.start
-              ---@type {character: number; line: number}
-              local end_ = diagnostic.range['end']
+              -- print('diagnostic' .. vim.inspect(diagnostic))
 
-              local indent = vim.fn.indent(start.line)
+              -- local start = diagnostic.range.start
+              local start_lnum = diagnostic.lnum
+
+              -- --@type {character: number; line: number}
+              -- local end_ = diagnostic.range['end']
+              local end_lnum = diagnostic.end_lnum or start_lnum + 1
+
+              local indent = vim.fn.indent(start_lnum + 1)
               local whitespace = string.rep(' ', indent)
               local lines = { whitespace .. '// eslint-disable-next-line ' .. code }
-              for _, line in ipairs(vim.api.nvim_buf_get_lines(params.bufnr, start.line, end_.line, false)) do
+              for _, line in ipairs(vim.api.nvim_buf_get_lines(params.bufnr, start_lnum, end_lnum, false)) do
                 table.insert(lines, line)
               end
 
-              vim.api.nvim_buf_set_lines(params.bufnr, start.line, end_.line, false, lines)
+              vim.api.nvim_buf_set_lines(params.bufnr, start_lnum, end_lnum, false, lines)
             end
           })
 
           table.insert(actions, {
-            title = "Disable ESLint rule '" .. code .. "' for this entire file",
+            title = "Disable '" .. code .. "' for entire file: " .. code,
             action = function()
               local lines = vim.api.nvim_buf_get_lines(params.bufnr, 0, 1, false) or ''
 

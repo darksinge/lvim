@@ -23,7 +23,7 @@ end
 M.run = function(workspace)
   print('checking project...')
 
-  local args = { '--noEmit' }
+  local args = { 'run', 'typecheck' }
   if workspace then
     table.insert(args, '-p')
     table.insert(args, workspace)
@@ -31,7 +31,7 @@ M.run = function(workspace)
 
   local lines = {}
   Job:new({
-    command = 'tsc',
+    command = 'npm',
     args = args,
     detached = true,
     on_stdout = function(_, line)
